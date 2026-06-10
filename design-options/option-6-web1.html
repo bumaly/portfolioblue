@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOOLU.ART - Y2K / Web 1.0</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --fg: #000000;
+      --link: #0000EE;
+      --link-visited: #551A8B;
+      --link-active: #FF0000;
+      --border-color: #0000EE;
+      --font-serif: "Times New Roman", Times, serif;
+      --font-mono: 'IBM Plex Mono', "Courier New", Courier, monospace;
+      
+      --col1-width: 250px;
+      --col2-width: 320px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-serif);
+      background-color: var(--bg);
+      color: var(--fg);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      /* Subtle dither background pattern */
+      background-image: url('data:image/svg+xml;utf8,<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><rect width="4" height="4" fill="%23fff"/><rect width="2" height="2" fill="%23f0f0f0"/><rect x="2" y="2" width="2" height="2" fill="%23f0f0f0"/></svg>');
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    a:active { color: var(--link-active); }
+    a:visited { color: var(--link-visited); } /* Kept for aesthetic, though won't truly apply here */
+
+    .shell {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      padding: 8px;
+      gap: 8px;
+    }
+
+    /* Emulating the classic <frame> look with rigid borders */
+    .col {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FFFFFF;
+      border: 4px ridge #dcdcdc;
+    }
+
+    .col-1 { width: var(--col1-width); flex-shrink: 0; }
+    .col-2 { width: var(--col2-width); flex-shrink: 0; }
+    .col-3 { flex: 1; overflow-y: auto; }
+
+    .nav-brand {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 2px dashed var(--border-color);
+      background: #e6e6fa; /* Lavender */
+    }
+
+    .nav-brand h1 {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      color: var(--link);
+      text-shadow: 2px 2px 0px #ccc;
+    }
+
+    .nav-list { list-style: square; padding: 24px 16px 24px 32px; flex: 1; font-family: var(--font-mono); font-size: 14px;}
+    
+    .nav-item { margin-bottom: 16px; }
+    .nav-item a.active {
+      color: var(--link-active);
+      font-weight: bold;
+      background: yellow;
+    }
+
+    .header-bar {
+      padding: 8px;
+      border-bottom: 4px groove #dcdcdc;
+      background: #f0f8ff; /* AliceBlue */
+      font-family: var(--font-mono);
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .project-item {
+      padding: 16px;
+      border-bottom: 1px dotted var(--border-color);
+      display: flex;
+      gap: 16px;
+    }
+    
+    .project-item:hover {
+      background: #ffffE0; /* LightYellow */
+    }
+
+    .project-thumb {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--fg);
+      background: url('data:image/svg+xml;utf8,<svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><rect width="8" height="8" fill="%23ccc"/><circle cx="4" cy="4" r="3" fill="%23999"/></svg>') repeat;
+    }
+
+    .project-info { display: flex; flex-direction: column; justify-content: center; font-family: var(--font-sans); }
+    .project-title { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+    .project-title a { text-decoration: underline; }
+    .project-date { font-family: var(--font-mono); font-size: 12px; color: #666; }
+
+    .content-area {
+      padding: 32px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content-title {
+      font-size: 36px;
+      margin-bottom: 24px;
+      color: var(--link-visited);
+      border-bottom: 3px double var(--link-visited);
+      display: inline-block;
+    }
+
+    .content-tags {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .content-body {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .content-body p { margin-bottom: 16px; text-indent: 2em; }
+
+    .image-placeholder {
+      width: 100%;
+      height: 400px;
+      border: 2px solid var(--fg);
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+      color: var(--link);
+      font-family: var(--font-mono);
+      font-weight: bold;
+    }
+
+    /* CSS Marquee */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      background: var(--fg);
+      color: #00FF00;
+      font-family: var(--font-mono);
+      font-weight: bold;
+      padding: 4px 0;
+      border-top: 4px ridge #dcdcdc;
+      border-bottom: 4px ridge #dcdcdc;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    .webring {
+      margin-top: 64px;
+      text-align: center;
+      padding: 16px;
+      border: 2px dashed #FF00FF;
+      background: #FFF0F5; /* LavenderBlush */
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="shell">
+    
+    <!-- Col 1: Navigation -->
+    <div class="col col-1">
+      <div class="nav-brand">
+        <h1>BOOLU.ART</h1>
+        <small>Best viewed in Netscape Navigator</small>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#" class="active">Projects</a></li>
+        <li class="nav-item"><a href="#">Studio</a></li>
+        <li class="nav-item"><a href="#">Weblog</a></li>
+        <li class="nav-item"><a href="#">About Me</a></li>
+        <li class="nav-item"><a href="#">Sign Guestbook</a></li>
+      </ul>
+      
+      <div style="text-align: center; margin-top: auto; padding: 16px;">
+        <img src="data:image/svg+xml;utf8,<svg width='88' height='31' xmlns='http://www.w3.org/2000/svg'><rect width='88' height='31' fill='%23000'/><text x='4' y='20' fill='%23fff' font-family='monospace' font-size='10'>HTML 4.0</text></svg>" alt="Valid HTML 4.0">
+      </div>
+    </div>
+
+    <!-- Col 2: Project List -->
+    <div class="col col-2">
+      <div class="header-bar">
+        === Index of /projects ===
+      </div>
+      <div style="overflow-y: auto; flex: 1;">
+        <div class="project-item">
+          <div class="project-thumb"></div>
+          <div class="project-info">
+            <div class="project-title"><a href="#">Cybernetic Dreams</a> <img src="data:image/svg+xml;utf8,<svg width='28' height='11' xmlns='http://www.w3.org/2000/svg'><text x='0' y='10' fill='red' font-family='sans-serif' font-size='10' font-weight='bold'>NEW!</text></svg>" alt="NEW!"></div>
+            <div class="project-date">Added: 04/12/26</div>
+          </div>
+        </div>
+        <div class="project-item">
+          <div class="project-thumb"></div>
+          <div class="project-info">
+            <div class="project-title"><a href="#">Neon Tokyo Layouts</a></div>
+            <div class="project-date">Added: 03/22/26</div>
+          </div>
+        </div>
+        <div class="project-item">
+          <div class="project-thumb"></div>
+          <div class="project-info">
+            <div class="project-title"><a href="#">Brutalism Framework</a></div>
+            <div class="project-date">Added: 01/15/26</div>
+          </div>
+        </div>
+        <div class="project-item">
+          <div class="project-thumb"></div>
+          <div class="project-info">
+            <div class="project-title"><a href="#">Abstract UI</a></div>
+            <div class="project-date">Added: 11/05/25</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 3: Content -->
+    <div class="col col-3">
+      <div class="marquee-container">
+        <span class="marquee-text">*** WELCOME TO BOOLU.ART *** CHECK OUT MY LATEST PROJECTS *** DON'T FORGET TO SIGN THE GUESTBOOK! ***</span>
+      </div>
+      <div class="content-area">
+        <h1 class="content-title">Cybernetic Dreams</h1>
+        <div class="content-tags">
+          <span>[ Category: Web Design ]</span>
+          <span>[ Year: 2026 ]</span>
+        </div>
+        <div class="content-body">
+          <p>Welcome to my latest project page! This design pays homage to the early days of the World Wide Web, often referred to as Web 1.0 or the GeoCities era. It uses classic elements like <code>Times New Roman</code>, distinct bright blue hyperlinks, and rigid frame-like layouts.</p>
+          
+          <div class="image-placeholder">
+            [ Image: cyber_dreams_preview.jpg (54KB) ]
+          </div>
+
+          <p>By retaining the 3-column layout but styling it with CSS <code>ridge</code> borders and dotted dividers, we maintain your core structure while fully embracing the nostalgic, unpolished charm of the 90s internet.</p>
+          
+          <p>If you enjoy this layout, please consider signing my guestbook or emailing me at the link below!</p>
+        </div>
+
+        <div class="webring">
+          <p>&lt;&lt; <a href="#">Previous Site</a> | <strong>The Web Design Ring</strong> | <a href="#">Next Site</a> &gt;&gt;</p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</body>
+</html>

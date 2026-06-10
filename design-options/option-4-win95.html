@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOOLU.ART - Elevated Windows 95</title>
+  <style>
+    :root {
+      --win-bg: #C0C0C0;
+      --win-text: #000000;
+      --win-highlight-bg: #000080;
+      --win-highlight-text: #FFFFFF;
+      --win-border-light: #FFFFFF;
+      --win-border-shadow: #808080;
+      --win-border-dark: #000000;
+      --desktop-bg: #008080;
+      
+      --font-ui: "MS Sans Serif", "Tahoma", "Geneva", sans-serif;
+      --font-mono: "Courier New", "IBM Plex Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-ui);
+      background-color: var(--desktop-bg);
+      color: var(--win-text);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      /* Mimic non-antialiased crisp fonts */
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+    }
+
+    /* Win95 3D Outset (Panel) */
+    .win-panel {
+      background: var(--win-bg);
+      border-top: 1px solid var(--win-border-light);
+      border-left: 1px solid var(--win-border-light);
+      border-right: 1px solid var(--win-border-dark);
+      border-bottom: 1px solid var(--win-border-dark);
+      box-shadow: inset 1px 1px var(--win-bg), inset -1px -1px var(--win-border-shadow);
+    }
+
+    /* Win95 3D Inset (Input/Content) */
+    .win-inset {
+      background: #FFFFFF;
+      border-top: 1px solid var(--win-border-dark);
+      border-left: 1px solid var(--win-border-dark);
+      border-right: 1px solid var(--win-border-light);
+      border-bottom: 1px solid var(--win-border-light);
+      box-shadow: inset 1px 1px var(--win-border-shadow);
+    }
+
+    /* Buttons */
+    .win-button {
+      background: var(--win-bg);
+      font-family: var(--font-ui);
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+      border-top: 1px solid var(--win-border-light);
+      border-left: 1px solid var(--win-border-light);
+      border-right: 1px solid var(--win-border-dark);
+      border-bottom: 1px solid var(--win-border-dark);
+      box-shadow: inset 1px 1px var(--win-bg), inset -1px -1px var(--win-border-shadow);
+      outline: none;
+    }
+
+    .win-button:active {
+      border-top: 1px solid var(--win-border-dark);
+      border-left: 1px solid var(--win-border-dark);
+      border-right: 1px solid var(--win-border-light);
+      border-bottom: 1px solid var(--win-border-light);
+      box-shadow: inset 1px 1px var(--win-border-shadow);
+      padding: 5px 9px 3px 11px; /* shift text */
+    }
+
+    .main-window {
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-bar {
+      background: var(--win-highlight-bg);
+      color: var(--win-highlight-text);
+      padding: 2px 4px 2px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .title-controls {
+      display: flex;
+      gap: 2px;
+    }
+
+    .title-btn {
+      width: 16px; height: 14px;
+      background: var(--win-bg);
+      color: var(--win-text);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: bold;
+      border-top: 1px solid var(--win-border-light);
+      border-left: 1px solid var(--win-border-light);
+      border-right: 1px solid var(--win-border-dark);
+      border-bottom: 1px solid var(--win-border-dark);
+      cursor: pointer;
+    }
+    .title-btn:active {
+      border-top: 1px solid var(--win-border-dark);
+      border-left: 1px solid var(--win-border-dark);
+      border-right: 1px solid var(--win-border-light);
+      border-bottom: 1px solid var(--win-border-light);
+    }
+
+    .menu-bar {
+      display: flex;
+      padding: 2px 0;
+      border-bottom: 1px solid var(--win-border-shadow);
+    }
+    
+    .menu-item {
+      padding: 2px 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .menu-item span { text-decoration: underline; }
+    .menu-item:hover {
+      background: var(--win-highlight-bg);
+      color: var(--win-highlight-text);
+    }
+
+    .shell {
+      display: flex;
+      flex: 1;
+      padding: 4px;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .col-1 { width: 220px; flex-shrink: 0; }
+    .col-2 { width: 300px; flex-shrink: 0; }
+    .col-3 { flex: 1; }
+
+    .pane-header {
+      font-size: 11px;
+      padding: 4px;
+      background: var(--win-bg);
+      font-weight: bold;
+    }
+
+    /* Tree View (Nav) */
+    .tree-view {
+      flex: 1;
+      padding: 4px;
+      font-size: 11px;
+      overflow-y: auto;
+    }
+    .tree-item {
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      cursor: pointer;
+    }
+    .tree-item img {
+      width: 16px; height: 16px; margin-right: 6px; image-rendering: pixelated;
+    }
+    .tree-item.active {
+      background: var(--win-highlight-bg);
+      color: var(--win-highlight-text);
+      outline: 1px dotted var(--win-bg);
+      outline-offset: -1px;
+    }
+
+    /* List View (Projects) */
+    .list-view {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .list-header {
+      display: flex;
+      background: var(--win-bg);
+    }
+    .list-col {
+      padding: 2px 6px;
+      font-size: 11px;
+      flex: 1;
+      border-right: 1px solid var(--win-border-shadow);
+      border-bottom: 1px solid var(--win-border-shadow);
+    }
+    .list-item {
+      display: flex;
+      padding: 2px 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .list-item:nth-child(even) { background: #f0f0f0; }
+    .list-item.active {
+      background: var(--win-highlight-bg);
+      color: var(--win-highlight-text);
+    }
+    .list-item div { flex: 1; }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .content-area h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      font-family: 'Times New Roman', serif;
+    }
+
+    .content-area img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      margin: 16px 0;
+    }
+
+    .status-bar {
+      display: flex;
+      padding: 2px;
+      margin-top: 4px;
+    }
+    .status-pane {
+      padding: 2px 6px;
+      font-size: 11px;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="main-window win-panel">
+    <div class="title-bar">
+      <span>BOOLU.ART Portfolio Explorer</span>
+      <div class="title-controls">
+        <div class="title-btn">_</div>
+        <div class="title-btn">□</div>
+        <div class="title-btn">X</div>
+      </div>
+    </div>
+    
+    <div class="menu-bar">
+      <div class="menu-item"><span>F</span>ile</div>
+      <div class="menu-item"><span>E</span>dit</div>
+      <div class="menu-item"><span>V</span>iew</div>
+      <div class="menu-item"><span>H</span>elp</div>
+    </div>
+
+    <div class="shell">
+      <!-- Col 1: Navigation -->
+      <div class="col col-1 win-inset">
+        <div class="tree-view">
+          <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> Desktop</div>
+          <div style="padding-left: 16px;">
+            <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> BOOLU.ART</div>
+            <div style="padding-left: 16px;">
+              <div class="tree-item active"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> Projects</div>
+              <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> Studio</div>
+              <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> Blog</div>
+              <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> About</div>
+              <div class="tree-item"><img src="data:image/gif;base64,R0lGODlhEAAQALMAAAAAAI+Pj8DAwICAgP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAQxMMhJq7046827/2AojmRpnqiaCgBEEMcxyDEQ2EAMwzHgwDAEwuFwOBwOQ8LhcDgcEiEAOw==" alt="folder"> Guestbook</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Project List -->
+      <div class="col col-2 win-inset">
+        <div class="list-view">
+          <div class="list-header win-panel">
+            <div class="list-col">Name</div>
+            <div class="list-col">Date Modified</div>
+            <div class="list-col">Type</div>
+          </div>
+          <div class="list-item active">
+            <div>Cybernetic_Dreams.exe</div>
+            <div>04/12/26</div>
+            <div>Application</div>
+          </div>
+          <div class="list-item">
+            <div>Neon_Tokyo_Layouts.bmp</div>
+            <div>03/22/26</div>
+            <div>Bitmap Image</div>
+          </div>
+          <div class="list-item">
+            <div>Brutalism_Framework.dll</div>
+            <div>01/15/26</div>
+            <div>System File</div>
+          </div>
+          <div class="list-item">
+            <div>Abstract_UI.ini</div>
+            <div>11/05/25</div>
+            <div>Config</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: Content -->
+      <div class="col col-3 win-inset">
+        <div class="content-area">
+          <h1>Cybernetic Dreams v1.0</h1>
+          <p><strong>System Requirements:</strong> Windows 95, 16MB RAM, SVGA Display.</p>
+          <hr style="border: none; border-top: 1px solid #808080; border-bottom: 1px solid #ffffff; margin: 8px 0;">
+          <p>This design option accurately replicates the feeling of using a desktop application in the mid-90s. The classic grey panels, stark inset/outset borders, and Microsoft Sans Serif typography provide an overwhelming sense of nostalgia.</p>
+          
+          <div class="win-panel" style="background: #000; height: 200px; display:flex; align-items:center; justify-content:center; color:#0f0; font-family:var(--font-mono); margin: 16px 0;">
+            C:\> dir image.bmp
+          </div>
+
+          <p>Interactions utilize the classic "pressed" state for buttons and instant visual feedback typical of native desktop applications. This approach elevates the retro theme by making it a complete, immersive simulation.</p>
+
+          <br>
+          <button class="win-button">Download Portfolio</button>
+          <button class="win-button">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-pane win-inset">1 object(s) selected</div>
+      <div class="status-pane win-inset" style="max-width: 150px;">4.20 MB</div>
+      <div class="status-pane win-inset" style="max-width: 150px;">My Computer</div>
+    </div>
+  </div>
+
+</body>
+</html>

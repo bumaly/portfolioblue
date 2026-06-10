@@ -1,0 +1,112 @@
+import Link from 'next/link';
+import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { client } from '../../sanity/lib/client';
+import { urlForImage } from '../../sanity/lib/image';
+
+const ptComponents: PortableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      if (!value?.asset?._ref) {
+        return null;
+      }
+      const imageUrl = urlForImage(value)?.url();
+      if (!imageUrl) {
+        return null;
+      }
+      return (
+        <img
+          alt={value.alt || 'Blog post image'}
+          loading="lazy"
+          src={imageUrl}
+          style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '2rem 0', filter: 'grayscale(100%) brightness(0.8) contrast(1.2)' }}
+        />
+      );
+    },
+  },
+};
+
+type Post = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  publishedAt: string;
+  _createdAt: string;
+  body: any;
+};
+
+type Props = {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function Blog(props: Props) {
+  // Wait for searchParams to resolve in Next 15+
+  const searchParams = props.searchParams ? await props.searchParams : {};
+  const selectedId = typeof searchParams.id === 'string' ? searchParams.id : undefined;
+
+  const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt desc, _createdAt desc)');
+
+  const selectedPost = selectedId ? posts.find(p => p._id === selectedId) : undefined;
+
+  return (
+    <>
+      <section className="col col-2 col-2-narrow col-scrollable">
+        <header className="col-header">
+          [ LOGS ]
+        </header>
+
+        <div>
+          {posts.map((p) => {
+             const isActive = selectedId === p._id;
+             const displayDate = p.publishedAt ? new Date(p.publishedAt).toISOString().split('T')[0] : new Date(p._createdAt).toISOString().split('T')[0];
+             return (
+               <Link 
+                 key={p._id} 
+                 href={`/blog?id=${p._id}`} 
+                 style={{ display: 'block' }}
+                 data-nav
+                 scroll={false}
+               >
+                 <div className={`post-list-item ${isActive ? 'active' : ''}`}>
+                   <div className="post-list-title">{p.title}</div>
+                   <div className="post-list-date">{displayDate}</div>
+                 </div>
+               </Link>
+             );
+          })}
+        </div>
+      </section>
+
+      <section className="col col-3">
+        <header className="col-header">
+          [ READ ]
+        </header>
+        
+        {selectedPost ? (
+          <div>
+            <div className="detail-meta">
+              <h1 className="page-title">{selectedPost.title}</h1>
+              <div style={{ fontSize: '13px', opacity: 0.6 }}>
+                {selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]}
+              </div>
+            </div>
+            <div className="post-body">
+              {selectedPost.body ? (
+                <PortableText value={selectedPost.body} components={ptComponents} />
+              ) : null}
+            </div>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <pre className="ascii-art">
+{`  \\||/
+  -  -
+  /||\\`}
+            </pre>
+            <p>NO LOG SELECTED.</p>
+            <p style={{ opacity: 0.5 }}>Select a file from the list.</p>
+          </div>
+        )}
+      </section>
+    </>
+  );
+}
