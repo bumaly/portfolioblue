@@ -27,6 +27,12 @@ export default defineType({
       type: 'datetime',
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',

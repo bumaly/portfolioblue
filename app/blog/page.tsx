@@ -18,7 +18,7 @@ const ptComponents: PortableTextComponents = {
           alt={value.alt || 'Blog post image'}
           loading="lazy"
           src={imageUrl}
-          style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '2rem 0', filter: 'grayscale(100%) brightness(0.8) contrast(1.2)' }}
+          style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '2rem 0' }}
         />
       );
     },
@@ -32,6 +32,7 @@ type Post = {
   publishedAt: string;
   _createdAt: string;
   body: any;
+  tags?: string[];
 };
 
 type Props = {
@@ -51,7 +52,7 @@ export default async function Blog(props: Props) {
     <>
       <section className="col col-2 col-2-narrow col-scrollable">
         <header className="col-header">
-          [ LOGS ]
+          [ BLOG.TXT ]
         </header>
 
         <div>
@@ -67,8 +68,17 @@ export default async function Blog(props: Props) {
                  scroll={false}
                >
                  <div className={`post-list-item ${isActive ? 'active' : ''}`}>
-                   <div className="post-list-title">{p.title}</div>
-                   <div className="post-list-date">{displayDate}</div>
+                  <div className="post-list-title" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexShrink: 0 }}>
+                    {p.tags && p.tags.length > 0 && (
+                      <div className="post-list-tags" style={{ display: 'flex', gap: '6px', opacity: 0.6 }}>
+                        {p.tags.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
+                          <span key={tag} style={{ fontSize: '11px', textTransform: 'uppercase' }}>#{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="post-list-date">{displayDate}</div>
+                  </div>
                  </div>
                </Link>
              );
@@ -77,17 +87,23 @@ export default async function Blog(props: Props) {
       </section>
 
       <section className="col col-3">
-        <header className="col-header">
-          [ READ ]
-        </header>
-        
+
         {selectedPost ? (
           <div>
             <div className="detail-meta">
-              <h1 className="page-title">{selectedPost.title}</h1>
-              <div style={{ fontSize: '13px', opacity: 0.6 }}>
-                {selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '16px' }}>
+                <h1 className="project-detail-title" style={{ marginBottom: 0 }}>{selectedPost.title}</h1>
+                <div style={{ fontSize: '13px', opacity: 0.6, flexShrink: 0 }}>
+                  {selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]}
+                </div>
               </div>
+              {selectedPost.tags && selectedPost.tags.length > 0 && (
+                <div className="detail-tags">
+                  {selectedPost.tags.filter((t: string) => t && t.trim() !== '').map(tag => (
+                    <span key={tag} className="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="post-body">
               {selectedPost.body ? (

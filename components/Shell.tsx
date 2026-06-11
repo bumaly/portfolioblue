@@ -66,19 +66,38 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       let currentIndex = items.findIndex(el => el.classList.contains('kbd-focus'))
       if (currentIndex === -1) currentIndex = 0
 
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+      let isUp = e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W'
+      let isDown = e.key === 'ArrowDown' || e.key === 's' || e.key === 'S'
+      let isRight = e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' || e.key === 'Enter'
+      let isLeft = e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A'
+
+      if (window.innerWidth <= 883) {
+        if (activeCol === 1) {
+          const tempUp = isUp
+          const tempDown = isDown
+          isUp = e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A'
+          isDown = e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D'
+          isRight = tempDown || e.key === 'Enter'
+          isLeft = tempUp
+        } else if (activeCol > 1 && isUp && currentIndex === 0) {
+          isLeft = true
+          isUp = false
+        }
+      }
+
+      if (isUp) {
         if (items.length > 0 && currentIndex > 0) {
           items.forEach(el => el.classList.remove('kbd-focus'))
           items[currentIndex - 1].classList.add('kbd-focus')
           items[currentIndex - 1].focus()
         }
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+      } else if (isDown) {
         if (items.length > 0 && currentIndex < items.length - 1) {
           items.forEach(el => el.classList.remove('kbd-focus'))
           items[currentIndex + 1].classList.add('kbd-focus')
           items[currentIndex + 1].focus()
         }
-      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' || e.key === 'Enter') {
+      } else if (isRight) {
         const currentItem = items[currentIndex]
         if (currentItem) {
           currentItem.classList.add('blink')
@@ -89,7 +108,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             setActiveCol(activeCol + 1)
           }
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+      } else if (isLeft) {
         if (activeCol > 1) {
           setActiveCol(activeCol - 1)
         }

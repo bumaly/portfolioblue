@@ -18,12 +18,6 @@ const NAV_ITEMS = [
 
 export default function Nav() {
   const pathname = usePathname()
-  const { theme, toggle } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const isActive = (href: string) => pathname.startsWith(href)
 
@@ -64,7 +58,7 @@ export default function Nav() {
       </ul>
 
       {/* System info */}
-      <div style={{ padding: '16px', borderTop: '2px dashed var(--border)', fontSize: '12px' }}>
+      <div className="sys-info" style={{ padding: '16px', borderTop: '2px dashed var(--border)', fontSize: '12px' }}>
         MEM: 640K OK<br/>
         VGA: ACTIVE
       </div>

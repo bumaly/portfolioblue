@@ -15,10 +15,22 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, message } = body
+    const { name, message, website_url } = body
+
+    // 1. Invisible Honeypot: If this field is filled, it's a bot.
+    if (website_url) {
+      // Silently drop the request but return success so the bot doesn't retry
+      return NextResponse.json({ success: true, fake: true })
+    }
 
     if (!name || !message) {
       return NextResponse.json({ error: 'Name and message are required' }, { status: 400 })
+    }
+
+    // 2. Link Blocking / Anti-Spam
+    const urlPattern = /(http:\/\/|https:\/\/|www\.|<a\s+href)/i
+    if (urlPattern.test(message) || urlPattern.test(name)) {
+      return NextResponse.json({ error: 'Links are not allowed in the public log' }, { status: 400 })
     }
 
     const newEntry = await db.insert(guestbookEntries).values({

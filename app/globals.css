@@ -75,8 +75,6 @@ button {
 img {
   display: block;
   max-width: 100%;
-  /* Make images blend slightly with CRT aesthetic */
-  filter: contrast(1.1) brightness(0.9);
 }
 
 ::selection {
@@ -101,16 +99,7 @@ img {
   background: var(--muted);
 }
 
-/* ──────────── CRT Effects ──────────── */
-.crt-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-  background-size: 100% 4px;
-  z-index: 100;
-  pointer-events: none;
-}
-
+/* ──────────── Vignette ──────────── */
 .vignette {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -118,20 +107,6 @@ img {
   background: radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.15) 100%);
   z-index: 99;
   pointer-events: none;
-}
-
-.flicker {
-  animation: crtFlicker 0.15s infinite;
-  pointer-events: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255,255,255,0.01);
-  z-index: 98;
-}
-
-@keyframes crtFlicker {
-  0% { opacity: 0.95; }
-  100% { opacity: 1; }
 }
 
 /* ──────────── Layout Shell ──────────── */
@@ -274,13 +249,7 @@ img {
   white-space: nowrap;
 }
 
-.nav-item a::before,
-.nav-item button::before {
-  content: '>';
-  margin-right: 8px;
-  opacity: 0;
-  color: inherit;
-}
+
 
 .nav-item a:hover,
 .nav-item button:hover {
@@ -290,14 +259,7 @@ img {
   box-shadow: 0 0 8px var(--crt-bloom);
 }
 
-.nav-item a:hover::before,
-.nav-item button:hover::before,
-.nav-item.active a::before,
-.nav-item.active button::before,
-.nav-item a.kbd-focus::before,
-.nav-item button.kbd-focus::before {
-  opacity: 1;
-}
+
 
 .nav-item.active a,
 .nav-item.active button,
@@ -398,9 +360,25 @@ img {
   margin-bottom: 23px;
 }
 
+.project-detail-title {
+  font-size: clamp(16px, 4.5vw, 24px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+.project-detail-title::after {
+  content: '█';
+  animation: cursorBlink 1s step-start infinite;
+  margin-left: 8px;
+}
+
 /* ──────────── Project List ──────────── */
 .project-list-item {
-  padding: 16px;
+  padding: 10px 16px;
   border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: background var(--transition), color var(--transition);
@@ -428,14 +406,19 @@ img {
 
 .project-list-info {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  gap: 16px;
 }
 
 .project-list-title {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-list-title::before {
@@ -459,16 +442,16 @@ img {
 .detail-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 9px;
+  gap: 5px;
+  margin-top: 6px;
 }
 
 .tag {
-  font-size: 12px;
-  padding: 2px 9px;
+  font-size: 10px;
+  padding: 1px 6px;
   border: 1px solid var(--fg);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .detail-body {
@@ -480,10 +463,11 @@ img {
 .detail-body p { margin-bottom: 24px; }
 
 .detail-body img {
-  width: 100%;
-  height: auto;
+  max-width: 100%;
+  width: auto;
+  max-height: 75vh;
   display: block;
-  margin: 32px 0;
+  margin: 32px auto;
   border: 2px dashed var(--border);
   padding: 4px;
 }
@@ -498,10 +482,14 @@ img {
 
 /* ──────────── Blog ──────────── */
 .post-list-item {
-  padding: 16px;
+  padding: 10px 16px;
   border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: background var(--transition), color var(--transition);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
 }
 
 .post-list-item:hover,
@@ -515,16 +503,23 @@ img {
 .post-list-title {
   font-size: 15px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .post-list-title::before {
-  content: 'FILE: ';
+  content: '[';
+}
+.post-list-title::after {
+  content: ']';
 }
 
 .post-list-date {
   font-size: 13px;
   opacity: 0.8;
+  flex-shrink: 0;
 }
 
 .post-body {
@@ -752,26 +747,24 @@ img {
   }
 
   .nav-brand .ascii-art { display: none; }
-  .nav-brand::after {
-    content: '[ BOOLU.ART ]';
-    font-size: 16px;
-    letter-spacing: 0.1em;
-  }
 
   .nav-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 0;
   }
 
-  .nav-item { flex: 1; min-width: 103px; }
+  .nav-item { flex: 1; min-width: 0; }
   
   .nav-item a, .nav-item button {
     justify-content: center;
     border-right: 2px solid var(--border);
     border-bottom: 2px solid var(--border);
-    padding: 12px 5px;
-    font-size: 13px;
+    padding: 12px 2px;
+    font-size: clamp(8px, 2.3vw, 12px);
+    letter-spacing: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .nav-item:last-child a { border-right: none; }
@@ -790,7 +783,8 @@ img {
     width: 100% !important; 
     min-width: 100% !important; 
     max-width: 100% !important;
-    height: 35vh;
+    height: auto;
+    max-height: 196px;
   }
 
   .col-3 {
@@ -805,6 +799,15 @@ img {
   .about-col + .about-col, .contact-col + .contact-col {
     border-left: none;
     border-top: 2px dashed var(--border);
+  }
+
+  .sys-info {
+    display: none;
+  }
+
+  .col-header {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }
 

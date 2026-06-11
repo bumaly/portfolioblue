@@ -7,7 +7,7 @@ export default function About() {
   return (
     <section className="col col-3">
       <header className="col-header">
-        READING ABOUT.SYS
+        [ ABOUT.SYS ]
       </header>
 
       <div className="about-grid">
@@ -53,17 +53,20 @@ export default function About() {
 
         </div>
 
-        <div className="about-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '100%', maxWidth: '402px', position: 'relative' }}>
+        <div className="about-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '100%', maxWidth: '402px', position: 'relative', margin: 'auto 0' }}>
             <img 
               src="/about-portrait.jpg" 
               alt="Portrait of BOOLU" 
               style={{ 
-                width: '100%', 
+                maxWidth: '100%', 
+                maxHeight: '55vh',
+                width: 'auto',
                 height: 'auto',
                 border: '1px solid var(--border)',
                 filter: 'grayscale(20%)',
-                display: 'block'
+                display: 'block',
+                margin: '0 auto'
               }} 
             />
             <div style={{ 

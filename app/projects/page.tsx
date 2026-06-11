@@ -65,7 +65,7 @@ export default async function Projects(props: Props) {
     <>
       <section className="col col-2 col-scrollable">
         <header className="col-header">
-          DIR /W /P PROJECTS
+          [ PROJECTS.EXE ]
         </header>
         <div>
           {projects.length > 0 ? projects.map((p: any) => {
@@ -82,10 +82,12 @@ export default async function Projects(props: Props) {
               >
                 <div className={`project-list-item ${isActive ? 'active' : ''}`}>
                   <div className="project-list-info">
-                    <div className="project-list-title">{p.slug.toUpperCase()}</div>
-                    {p.publishedAt && (
-                      <div className="project-list-date">
-                        SIZE: {Math.floor(Math.random() * 200) + 50}KB &nbsp;&nbsp;DATE: {new Date(p.publishedAt).toISOString().split('T')[0].slice(2).replace(/-/g, '-')}
+                    <div className="project-list-title">{(p.title || p.slug).toUpperCase()}</div>
+                    {p.tags && p.tags.length > 0 && (
+                      <div className="project-list-tags" style={{ display: 'flex', gap: '6px', opacity: 0.6, flexShrink: 0 }}>
+                        {p.tags.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
+                          <span key={tag} style={{ fontSize: '11px', textTransform: 'uppercase' }}>#{tag}</span>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -103,14 +105,20 @@ export default async function Projects(props: Props) {
         {selectedProject ? (
           <div className="content-pad">
             <div className="detail-meta">
-              <h1 className="page-title">READING {selectedProject.slug.toUpperCase()}.TXT</h1>
+              <h1 className="project-detail-title">{(selectedProject.title || selectedProject.slug).toUpperCase()}.TXT</h1>
               <div className="detail-tags">
-                {selectedProject.tags?.map((tag: string) => (
+                {selectedProject.tags?.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
                   <span key={tag} className="tag">{tag}</span>
                 ))}
               </div>
             </div>
             <div className="detail-body">
+              {selectedProject.mainImage && (
+                <img 
+                  src={urlForImage(selectedProject.mainImage)?.url()} 
+                  alt={selectedProject.title || 'Project main image'} 
+                />
+              )}
               {selectedProject.body ? (
                 <PortableText value={selectedProject.body} components={portableTextComponents} />
               ) : null}

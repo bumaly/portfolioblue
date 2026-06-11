@@ -37,9 +37,7 @@ export default function RootLayout({
         <meta name="darkreader-lock" />
       </head>
       <body>
-        <div className="crt-overlay"></div>
         <div className="vignette"></div>
-        <div className="flicker"></div>
         
         <ThemeProvider>
           <Suspense fallback={<div>Loading...</div>}>
