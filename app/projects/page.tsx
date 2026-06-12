@@ -70,9 +70,7 @@ export default async function Projects(props: Props) {
   return (
     <>
       <section className="col col-2 col-scrollable">
-        <header className="col-header">
-          [ PROJECTS.EXE ]
-        </header>
+
         <div>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {projects.length > 0 ? projects.map((p: any) => {
@@ -100,9 +98,9 @@ export default async function Projects(props: Props) {
       <section className="col col-3 col-scrollable">
         
         {selectedProject ? (
-          <div className="content-pad">
+          <div>
             <div className="detail-meta">
-              <h1 className="project-detail-title">{(selectedProject.title || selectedProject.slug).toUpperCase()}.TXT</h1>
+              <h1 className="project-detail-title" style={{ marginBottom: 0 }}>{(selectedProject.title || selectedProject.slug).toUpperCase()}.TXT</h1>
               <div className="detail-tags">
                 {selectedProject.tags?.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
                   <span key={tag} className="tag">{tag}</span>
@@ -116,7 +114,7 @@ export default async function Projects(props: Props) {
                   alt={selectedProject.title || 'Project main image'} 
                   width={800}
                   height={600}
-                  style={{ maxWidth: '100%', height: 'auto' }}
+                  style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '0 auto 32px auto' }}
                 />
               )}
               {selectedProject.body ? (

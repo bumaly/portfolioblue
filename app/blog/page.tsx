@@ -54,9 +54,7 @@ export default async function Blog(props: Props) {
   return (
     <>
       <section className="col col-2 col-scrollable">
-        <header className="col-header">
-          [ BLOG.TXT ]
-        </header>
+
 
         <div>
           {posts.map((p) => {

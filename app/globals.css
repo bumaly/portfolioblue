@@ -417,7 +417,7 @@ img {
 }
 
 .project-list-title {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
   margin-bottom: 0;
   white-space: nowrap;
@@ -439,7 +439,7 @@ img {
 
 /* ──────────── Project Detail ──────────── */
 .detail-meta {
-  padding: 32px;
+  padding: 16px 32px;
   border-bottom: 2px dashed var(--border);
 }
 
@@ -459,7 +459,7 @@ img {
 }
 
 .detail-body {
-  padding: 32px;
+  padding: 16px 32px 32px;
   font-size: 15px;
   line-height: 1.8;
 }
@@ -505,7 +505,7 @@ img {
 }
 
 .post-list-title {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
   margin-bottom: 0;
   white-space: nowrap;
@@ -527,7 +527,7 @@ img {
 }
 
 .post-body {
-  padding: 32px;
+  padding: 16px 32px 32px;
   font-size: 15px;
   line-height: 1.9;
 }
@@ -721,8 +721,27 @@ img {
 .status-msg.success { border-color: var(--fg); opacity: 1; }
 .status-msg.error   { border-color: var(--fg); opacity: 1; }
 
+/* ──────────── About Layout ──────────── */
+.about-photo {
+  float: left;
+  margin-right: clamp(24px, 5vw, 48px);
+  margin-bottom: clamp(24px, 5vw, 35px);
+  max-width: 402px;
+  width: 100%;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* ──────────── Responsive: collapse cols on small screens ──────────── */
 @media (max-width: 883px) {
+  .about-photo {
+    float: none;
+    margin-right: 0;
+  }
   .shell { 
     flex-direction: column; 
     overflow-y: auto;
@@ -804,7 +823,7 @@ img {
     min-width: 100% !important; 
     max-width: 100% !important;
     height: auto;
-    max-height: 130px;
+    max-height: 98px;
   }
 
   .col-3 {

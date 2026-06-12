@@ -54,9 +54,7 @@ export default function Contact() {
 
   return (
     <section className="col col-scrollable" style={{ flex: 1, borderRight: 'none' }}>
-      <header className="col-header">
-        [ GUEST.LOG ]
-      </header>
+
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '32px' }}>
         {/* Contact Form Section */}
