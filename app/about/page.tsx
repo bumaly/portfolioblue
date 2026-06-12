@@ -18,7 +18,30 @@ export default function About() {
             <p className="page-subtitle" style={{ marginBottom: 0, fontSize: 'clamp(11px, 3vw, 14px)' }}>CREATIVE TECHNOLOGIST</p>
           </div>
 
-          <div className="about-bio" style={{ marginTop: 'clamp(16px, 4vw, 23px)' }}>
+          <div style={{ maxWidth: '402px', marginBottom: 'clamp(24px, 5vw, 35px)' }}>
+            <img 
+              src="/about-portrait.jpg" 
+              alt="Portrait of BOOLU" 
+              style={{ 
+                maxWidth: '100%', 
+                height: 'auto',
+                border: '1px solid var(--border)',
+                filter: 'grayscale(20%)',
+                display: 'block'
+              }} 
+            />
+            <div style={{ 
+              marginTop: '18px', 
+              fontSize: '12px', 
+              opacity: 0.5, 
+              letterSpacing: '0.1em',
+              textAlign: 'center'
+            }}>
+              [ PORTRAIT.JPG ]
+            </div>
+          </div>
+
+          <div className="about-bio">
             <p>
               BOOLU is a creative technologist building interactive and immersive experiences with code, electronics, and sound.
             </p>
@@ -49,41 +72,12 @@ export default function About() {
 
           <div className="ascii-divider" style={{ marginTop: 'clamp(24px, 5vw, 35px)' }}>{'// ────────────────────────────────────────'}</div>
 
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 'clamp(16px, 4vw, 32px)', padding: '0 clamp(16px, 4vw, 32px) clamp(16px, 4vw, 32px) clamp(16px, 4vw, 32px)', alignItems: 'flex-start' }}>
-          <div style={{ flex: '1 1 300px', maxWidth: '402px' }}>
-            <img 
-              src="/about-portrait.jpg" 
-              alt="Portrait of BOOLU" 
-              style={{ 
-                maxWidth: '100%', 
-                height: 'auto',
-                border: '1px solid var(--border)',
-                filter: 'grayscale(20%)',
-                display: 'block'
-              }} 
-            />
-            <div style={{ 
-              marginTop: '18px', 
-              fontSize: '12px', 
-              opacity: 0.5, 
-              letterSpacing: '0.1em',
-              textAlign: 'center'
-            }}>
-              [ PORTRAIT.JPG ]
-            </div>
-          </div>
-
-          <div style={{ flex: '1 1 300px' }}>
-            <div className="about-bio" style={{ textAlign: 'left' }}>
-              <p>
-                BOOLU is from Manila, Philippines and is based in Barcelona, Spain. They speak English, Tagalog (Filipino), and Spanish. They have an established career in technology and hold an MBA from a global top business school. They enjoy producing electronic music, adventure travel, and bouldering. 
-              </p>
-            </div>
+          <div className="about-bio" style={{ marginTop: 'clamp(24px, 5vw, 35px)', textAlign: 'left' }}>
+            <p>
+              BOOLU is from Manila, Philippines and is based in Barcelona, Spain. They speak English, Tagalog (Filipino), and Spanish. They have an established career in technology and hold an MBA from a global top business school. They enjoy producing electronic music, adventure travel, and bouldering. 
+            </p>
           </div>
         </div>
-
       </div>
     </section>
   )
