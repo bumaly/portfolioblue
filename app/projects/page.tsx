@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { client } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
+import ScrollReset from '@/components/ScrollReset';
 
 const PROJECTS_QUERY = `*[_type == "project"] | order(publishedAt desc) {
   _id,
@@ -69,6 +70,7 @@ export default async function Projects(props: Props) {
 
   return (
     <>
+      <ScrollReset dep={selectedSlug} />
       <section className="col col-2 col-scrollable">
 
         <div>

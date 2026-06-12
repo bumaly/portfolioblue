@@ -118,17 +118,17 @@ export default function Contact() {
                <div className="guestbook-entry" style={{ opacity: 0.5, fontSize: '11px' }}>NO LOGS FOUND. BE THE FIRST.</div>
              ) : (
                entries.map(entry => (
-                  <div key={entry.id} className="guestbook-entry" style={{ padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', fontSize: '11px' }}>
-                    <div style={{ display: 'flex', gap: '8px', overflow: 'hidden' }}>
-                      <div className="guestbook-name" style={{ whiteSpace: 'nowrap', flexShrink: 0, marginBottom: 0 }}>
+                  <div key={entry.id} className="guestbook-entry" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '11px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
+                      <div className="guestbook-name" style={{ whiteSpace: 'nowrap', marginBottom: 0 }}>
                         [{entry.name.toUpperCase()}]:
                       </div>
-                      <div className="guestbook-message" style={{ opacity: 0.9, wordBreak: 'break-word', marginTop: '1px' }}>
-                        {entry.message}
+                      <div className="guestbook-date" style={{ flexShrink: 0, marginBottom: 0, whiteSpace: 'nowrap' }}>
+                        {new Date(entry.createdAt).toISOString().replace('T', ' ').slice(0, 16)}
                       </div>
                     </div>
-                    <div className="guestbook-date" style={{ flexShrink: 0, marginBottom: 0, whiteSpace: 'nowrap' }}>
-                      {new Date(entry.createdAt).toISOString().replace('T', ' ').slice(0, 16)}
+                    <div className="guestbook-message" style={{ opacity: 0.9, wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
+                      {entry.message}
                     </div>
                   </div>
                ))

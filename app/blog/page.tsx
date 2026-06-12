@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
-
+import ScrollReset from '@/components/ScrollReset';
 const ptComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
@@ -53,6 +53,7 @@ export default async function Blog(props: Props) {
 
   return (
     <>
+      <ScrollReset dep={selectedId} />
       <section className="col col-2 col-scrollable">
 
 
