@@ -62,7 +62,7 @@ export default function About() {
                 Their practice is driven by a desire to tell deeply human stories and build spaces for genuine empathy with technology as a medium.
               </p>
               <p>
-                They regard technology as a tool for intimate personal expression and communication - a way to explore vulnerability, memory, and identity. They want technology's presence to be felt emotionally and tactilely, inviting the audience to experience the human presence within the machine.
+                They regard technology as a tool for intimate personal expression and communication - a way to explore vulnerability, memory, and identity. They want technology&apos;s presence to be felt emotionally and tactilely, inviting the audience to experience the human presence within the machine.
               </p>
               <p>
                 By designing interactive narrative-driven experiences, BOOLU challenges our modern relationship with technology as an isolating and profit-driven extraction tool. Instead of algorithms manipulating human attention, they reclaim code, hardware, and interaction to build empathy, connection, and reflection.

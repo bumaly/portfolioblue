@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { client } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
@@ -15,16 +16,20 @@ const PROJECTS_QUERY = `*[_type == "project"] | order(publishedAt desc) {
 
 const portableTextComponents = {
   types: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: ({ value }: any) => {
       if (!value?.asset?._ref) return null;
       return (
-        <img
+        <Image
           alt={value.alt || ' '}
-          loading="lazy"
-          src={urlForImage(value)?.url()}
+          src={urlForImage(value)?.url() || ''}
+          width={800}
+          height={600}
+          style={{ maxWidth: '100%', height: 'auto' }}
         />
       );
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     videoEmbed: ({ value }: any) => {
       if (!value?.url) return null;
       let embedUrl = value.url;
@@ -59,6 +64,7 @@ export default async function Projects(props: Props) {
   const selectedSlug = typeof searchParams.slug === 'string' ? searchParams.slug : undefined;
 
   const projects = await client.fetch(PROJECTS_QUERY);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedProject = projects.find((p: any) => p.slug === selectedSlug);
 
   return (
@@ -68,9 +74,9 @@ export default async function Projects(props: Props) {
           [ PROJECTS.EXE ]
         </header>
         <div>
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {projects.length > 0 ? projects.map((p: any) => {
             const isActive = selectedSlug === p.slug;
-            const imageUrl = p.mainImage ? urlForImage(p.mainImage)?.url() : null;
             
             return (
               <Link 
@@ -105,9 +111,12 @@ export default async function Projects(props: Props) {
             </div>
             <div className="detail-body">
               {selectedProject.mainImage && (
-                <img 
-                  src={urlForImage(selectedProject.mainImage)?.url()} 
+                <Image 
+                  src={urlForImage(selectedProject.mainImage)?.url() || ''} 
                   alt={selectedProject.title || 'Project main image'} 
+                  width={800}
+                  height={600}
+                  style={{ maxWidth: '100%', height: 'auto' }}
                 />
               )}
               {selectedProject.body ? (

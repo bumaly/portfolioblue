@@ -6,9 +6,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useTheme } from './ThemeProvider'
-import { useState, useEffect } from 'react'
-
 const NAV_ITEMS = [
   { label: 'ABOUT',   href: '/about',    arrow: '▶' },
   { label: 'PROJECTS',href: '/projects', arrow: '·' },
@@ -18,12 +15,6 @@ const NAV_ITEMS = [
 
 export default function Nav() {
   const pathname = usePathname()
-  const { theme, toggle } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const isActive = (href: string) => pathname.startsWith(href)
 

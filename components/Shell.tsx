@@ -63,7 +63,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       if (!hasInteracted) setHasInteracted(true)
 
       const items = Array.from(document.querySelectorAll(`.col-${activeCol} [data-nav]`)) as HTMLElement[]
-      let currentIndex = items.findIndex(el => el.classList.contains('kbd-focus'))
+      const currentIndex = items.findIndex(el => el.classList.contains('kbd-focus'))
 
       let isUp = e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W'
       let isDown = e.key === 'ArrowDown' || e.key === 's' || e.key === 'S'

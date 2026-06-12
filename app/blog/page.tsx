@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
@@ -14,10 +15,11 @@ const ptComponents: PortableTextComponents = {
         return null;
       }
       return (
-        <img
+        <Image
           alt={value.alt || 'Blog post image'}
-          loading="lazy"
           src={imageUrl}
+          width={800}
+          height={600}
           style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '2rem 0' }}
         />
       );
@@ -31,6 +33,7 @@ type Post = {
   slug: { current: string };
   publishedAt: string;
   _createdAt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: any;
   tags?: string[];
 };

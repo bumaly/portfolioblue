@@ -8,6 +8,7 @@ export async function GET() {
     const entries = await db.select().from(guestbookEntries).orderBy(desc(guestbookEntries.createdAt))
     return NextResponse.json(entries)
   } catch (error) {
+    console.error('Failed to fetch entries', error)
     return NextResponse.json({ error: 'Failed to fetch entries' }, { status: 500 })
   }
 }
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(newEntry[0])
   } catch (error) {
+    console.error('Failed to create entry', error)
     return NextResponse.json({ error: 'Failed to create entry' }, { status: 500 })
   }
 }
