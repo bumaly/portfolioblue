@@ -27,6 +27,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Name and message are required' }, { status: 400 })
     }
 
+    if (name.length > 100) {
+      return NextResponse.json({ error: 'Name must be 100 characters or less' }, { status: 400 })
+    }
+
+    if (message.length > 1000) {
+      return NextResponse.json({ error: 'Message must be 1000 characters or less' }, { status: 400 })
+    }
+
     // 2. Link Blocking / Anti-Spam
     const urlPattern = /(http:\/\/|https:\/\/|www\.|<a\s+href)/i
     if (urlPattern.test(message) || urlPattern.test(name)) {

@@ -64,7 +64,6 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
       const items = Array.from(document.querySelectorAll(`.col-${activeCol} [data-nav]`)) as HTMLElement[]
       let currentIndex = items.findIndex(el => el.classList.contains('kbd-focus'))
-      if (currentIndex === -1) currentIndex = 0
 
       let isUp = e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W'
       let isDown = e.key === 'ArrowDown' || e.key === 's' || e.key === 'S'
@@ -120,6 +119,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   }, [activeCol, hasInteracted])
 
   const handleClick = (e: React.MouseEvent) => {
+    // Ignore programmatic/keyboard simulated clicks
+    if (e.detail === 0) return
+
     if (!hasInteracted) setHasInteracted(true)
     isKeyboardNav.current = false
     
@@ -146,14 +148,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       className={`shell ${!hasInteracted ? 'no-interaction' : 'has-interaction'} active-col-${activeCol}`} 
       onClick={handleClick}
     >
-      {React.Children.map(children, child => {
-        if (React.isValidElement(child) && child.type === 'main') {
-          return React.cloneElement(child as React.ReactElement<{ style?: React.CSSProperties }>, {
-            style: { ...(child as React.ReactElement<{ style?: React.CSSProperties }>).props.style, display: !hasInteracted ? 'none' : 'flex' }
-          })
-        }
-        return child
-      })}
+      {children}
     </div>
   )
 }

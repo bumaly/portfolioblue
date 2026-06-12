@@ -13,6 +13,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Name, email, and message are required' }, { status: 400 })
     }
 
+    if (name.length > 100) {
+      return NextResponse.json({ error: 'Name must be 100 characters or less' }, { status: 400 })
+    }
+
+    if (message.length > 1000) {
+      return NextResponse.json({ error: 'Message must be 1000 characters or less' }, { status: 400 })
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    }
+
     const data = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>', // Resend's default onboarding email for testing
       to: [contactEmailTo],

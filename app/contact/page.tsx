@@ -58,28 +58,28 @@ export default function Contact() {
         [ GUEST.LOG ]
       </header>
 
-      <div className="contact-grid">
-        {/* Left Column: Contact Form */}
-        <div className="contact-col">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '24px' }}>
-            <h2 className="project-detail-title" style={{ margin: 0 }}>TRANSMIT MESSAGE</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '32px' }}>
+        {/* Contact Form Section */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', rowGap: '4px', columnGap: '12px', marginBottom: '24px' }}>
+            <h2 className="project-detail-title" style={{ margin: 0, whiteSpace: 'nowrap' }}>TRANSMIT MSG</h2>
             <p className="page-subtitle" style={{ fontSize: '11px', opacity: 0.5, margin: 0, textTransform: 'uppercase' }}>DIRECT COMM LINK TO BOOLU.</p>
           </div>
 
           <form onSubmit={handleContactSubmit}>
             <div className="form-group" style={{ marginBottom: '12px' }}>
-              <input type="text" id="name" name="name" className="form-input" placeholder="[ NAME ]" required style={{ padding: '6px 8px', fontSize: '13px', border: '1px solid var(--border)' }} />
+              <input type="text" id="name" name="name" className="form-input" placeholder="[ NAME ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
             </div>
             
             <div className="form-group" style={{ marginBottom: '12px' }}>
-              <input type="email" id="email" name="email" className="form-input" placeholder="[ EMAIL ]" required style={{ padding: '6px 8px', fontSize: '13px', border: '1px solid var(--border)' }} />
+              <input type="email" id="email" name="email" className="form-input" placeholder="[ EMAIL ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
             </div>
             
             <div className="form-group" style={{ marginBottom: '12px' }}>
-              <textarea id="message" name="message" className="form-textarea" placeholder="[ MESSAGE ]" required style={{ padding: '6px 8px', fontSize: '13px', border: '1px solid var(--border)', minHeight: '60px' }}></textarea>
+              <textarea id="message" name="message" className="form-textarea" placeholder="[ MESSAGE ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)', minHeight: '60px' }}></textarea>
             </div>
             
-            <button type="submit" className="btn-primary" disabled={formStatus === 'loading'}>
+            <button type="submit" className="btn-primary" style={{ padding: '7px 14px', fontSize: '11px' }} disabled={formStatus === 'loading'}>
               {formStatus === 'loading' ? 'SENDING...' : 'SEND'}
             </button>
 
@@ -92,10 +92,12 @@ export default function Contact() {
           </form>
         </div>
 
-        {/* Right Column: Guestbook */}
-        <div className="contact-col">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '24px' }}>
-            <h2 className="project-detail-title" style={{ margin: 0 }}>PUBLIC LOG</h2>
+        <div className="ascii-divider">{'// ────────────────────────────────────────'}</div>
+
+        {/* Guestbook Section */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', rowGap: '4px', columnGap: '12px', marginBottom: '24px' }}>
+            <h2 className="project-detail-title" style={{ margin: 0, whiteSpace: 'nowrap' }}>PUBLIC LOG</h2>
             <p className="page-subtitle" style={{ fontSize: '11px', opacity: 0.5, margin: 0, textTransform: 'uppercase' }}>GUESTBOOK ENTRIES (AUTO-PUBLISHED)</p>
           </div>
 
@@ -103,10 +105,10 @@ export default function Contact() {
              {/* Honeypot field - invisible to users, traps bots */}
              <input type="text" name="website_url" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
              <div style={{ display: 'flex', gap: '9px', marginBottom: '9px' }}>
-                <input type="text" name="name" className="form-input" placeholder="[ NAME ]" required style={{ flex: 1, padding: '6px 8px', fontSize: '13px', border: '1px solid var(--border)' }} />
+                <input type="text" name="name" className="form-input" placeholder="[ NAME ]" required style={{ flex: 1, padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
              </div>
-             <textarea name="message" className="form-textarea" placeholder="[ LEAVE A PUBLIC MESSAGE... ]" required style={{ minHeight: '40px', marginBottom: '9px', padding: '6px 8px', fontSize: '13px', border: '1px solid var(--border)' }}></textarea>
-             <button type="submit" className="btn-primary" style={{ padding: '7px 14px', fontSize: '12px' }} disabled={guestbookStatus === 'loading'}>
+             <textarea name="message" className="form-textarea" placeholder="[ LEAVE A PUBLIC MESSAGE... ]" required style={{ minHeight: '40px', marginBottom: '9px', padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }}></textarea>
+             <button type="submit" className="btn-primary" style={{ padding: '7px 14px', fontSize: '11px' }} disabled={guestbookStatus === 'loading'}>
                {guestbookStatus === 'loading' ? 'SIGNING...' : 'SIGN'}
              </button>
           </form>
@@ -115,10 +117,10 @@ export default function Contact() {
 
           <div style={{ marginTop: '18px' }}>
              {entries.length === 0 ? (
-               <div className="guestbook-entry" style={{ opacity: 0.5 }}>NO LOGS FOUND. BE THE FIRST.</div>
+               <div className="guestbook-entry" style={{ opacity: 0.5, fontSize: '11px' }}>NO LOGS FOUND. BE THE FIRST.</div>
              ) : (
                entries.map(entry => (
-                  <div key={entry.id} className="guestbook-entry" style={{ padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
+                  <div key={entry.id} className="guestbook-entry" style={{ padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', fontSize: '11px' }}>
                     <div style={{ display: 'flex', gap: '8px', overflow: 'hidden' }}>
                       <div className="guestbook-name" style={{ whiteSpace: 'nowrap', flexShrink: 0, marginBottom: 0 }}>
                         [{entry.name.toUpperCase()}]:

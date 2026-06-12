@@ -81,16 +81,7 @@ export default async function Projects(props: Props) {
                 data-nav
               >
                 <div className={`project-list-item ${isActive ? 'active' : ''}`}>
-                  <div className="project-list-info">
-                    <div className="project-list-title">{(p.title || p.slug).toUpperCase()}</div>
-                    {p.tags && p.tags.length > 0 && (
-                      <div className="project-list-tags" style={{ display: 'flex', gap: '6px', opacity: 0.6, flexShrink: 0 }}>
-                        {p.tags.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
-                          <span key={tag} style={{ fontSize: '11px', textTransform: 'uppercase' }}>#{tag}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <div className="project-list-title">{(p.title || p.slug).toUpperCase()}</div>
                 </div>
               </Link>
             );

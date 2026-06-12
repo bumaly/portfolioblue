@@ -17,18 +17,18 @@
   --muted: rgba(255, 255, 255, 0.55);
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
   --col1-width: 253px;
-  --col2-width: 329px;
+  --col2-width: 480px;
   --transition: 200ms ease;
 }
 
 [data-theme='light'] {
-  --bg: #0000AA;
-  --fg: #FFFFFF;
-  --border: #FFFFFF;
-  --highlight-bg: #FFFFFF;
-  --highlight-fg: #0000AA;
-  --muted: rgba(255, 255, 255, 0.55);
-  /* Light mode is disabled for Option 5 CLI aesthetic, enforcing dark */
+  --bg: #FFFFFF;
+  --fg: #0000AA;
+  --border: #0000AA;
+  --highlight-bg: #0000AA;
+  --highlight-fg: #FFFFFF;
+  --muted: rgba(0, 0, 170, 0.55);
+  --crt-bloom: rgba(0, 0, 170, 0.15);
 }
 
 /* ──────────── Reset ──────────── */
@@ -158,9 +158,9 @@ img {
 }
 
 .col-2-narrow {
-  width: 230px !important;
-  min-width: 230px !important;
-  max-width: 230px !important;
+  width: 400px !important;
+  min-width: 400px !important;
+  max-width: 400px !important;
   z-index: 2;
 }
 
@@ -211,13 +211,12 @@ img {
 /* ──────────── Nav ──────────── */
 .nav-brand {
   display: block;
-  padding: 16px 14px 12px;
+  padding: 16px;
   font-weight: 700;
   letter-spacing: 0.05em;
   border-bottom: 2px dashed var(--border);
   text-transform: uppercase;
   text-align: center;
-  line-height: 1.3;
 }
 
 .nav-brand span {
@@ -314,6 +313,10 @@ img {
   box-shadow: 0 0 8px var(--crt-bloom);
 }
 
+.mobile-only {
+  display: none !important;
+}
+
 /* ──────────── ASCII Art ──────────── */
 .ascii-art {
   font-family: var(--font-mono);
@@ -378,13 +381,14 @@ img {
 
 /* ──────────── Project List ──────────── */
 .project-list-item {
-  padding: 10px 16px;
+  padding: 20px 16px;
   border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: background var(--transition), color var(--transition);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .project-list-item:hover,
@@ -407,7 +411,7 @@ img {
 .project-list-info {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   width: 100%;
   gap: 16px;
 }
@@ -415,7 +419,7 @@ img {
 .project-list-title {
   font-size: 15px;
   font-weight: 700;
-  line-height: 1.2;
+  margin-bottom: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -482,13 +486,13 @@ img {
 
 /* ──────────── Blog ──────────── */
 .post-list-item {
-  padding: 10px 16px;
+  padding: 20px 16px;
   border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: background var(--transition), color var(--transition);
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
 }
 
@@ -540,7 +544,7 @@ img {
 /* ──────────── About ──────────── */
 .about-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0;
   height: 100%;
 }
@@ -551,7 +555,7 @@ img {
 }
 
 .about-col + .about-col {
-  border-left: 2px dashed var(--border);
+  border-top: 2px dashed var(--border);
 }
 
 .about-bio {
@@ -774,9 +778,25 @@ img {
   .theme-toggle {
     display: flex;
     justify-content: center;
-    padding: 7px;
-    border-top: none;
-    border-bottom: 2px dashed var(--border);
+    padding: 16px;
+    border-top: 2px solid var(--fg);
+    border-bottom: none;
+    background: var(--bg);
+    margin-top: 16px;
+  }
+  
+  .theme-toggle button {
+    margin: 0;
+    max-width: 400px;
+    padding: 8px 12px;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+  
+  .desktop-only {
+    display: none !important;
   }
 
   .col-2, .col-2-narrow { 
@@ -784,13 +804,18 @@ img {
     min-width: 100% !important; 
     max-width: 100% !important;
     height: auto;
-    max-height: 196px;
+    max-height: 130px;
   }
 
   .col-3 {
     width: 100% !important;
     height: auto;
     overflow-y: visible;
+  }
+
+  .post-list-item {
+    padding: 20px 16px;
+    align-items: baseline;
   }
 
   .project-grid { grid-template-columns: repeat(2, 1fr); }
@@ -808,6 +833,20 @@ img {
   .col-header {
     padding: 6px 12px;
     font-size: 12px;
+  }
+
+  .project-list-item,
+  .post-list-item {
+    padding: 10px 16px;
+  }
+
+  .detail-tags {
+    display: none !important;
+  }
+
+  .post-list-date,
+  .project-list-date {
+    font-size: 11px !important;
   }
 }
 

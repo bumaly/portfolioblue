@@ -50,7 +50,7 @@ export default async function Blog(props: Props) {
 
   return (
     <>
-      <section className="col col-2 col-2-narrow col-scrollable">
+      <section className="col col-2 col-scrollable">
         <header className="col-header">
           [ BLOG.TXT ]
         </header>
@@ -58,7 +58,8 @@ export default async function Blog(props: Props) {
         <div>
           {posts.map((p) => {
              const isActive = selectedId === p._id;
-             const displayDate = p.publishedAt ? new Date(p.publishedAt).toISOString().split('T')[0] : new Date(p._createdAt).toISOString().split('T')[0];
+             const fullDate = p.publishedAt ? new Date(p.publishedAt).toISOString().split('T')[0] : new Date(p._createdAt).toISOString().split('T')[0];
+             const displayDate = fullDate.substring(2);
              return (
                <Link 
                  key={p._id} 
@@ -70,13 +71,6 @@ export default async function Blog(props: Props) {
                  <div className={`post-list-item ${isActive ? 'active' : ''}`}>
                   <div className="post-list-title" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexShrink: 0 }}>
-                    {p.tags && p.tags.length > 0 && (
-                      <div className="post-list-tags" style={{ display: 'flex', gap: '6px', opacity: 0.6 }}>
-                        {p.tags.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
-                          <span key={tag} style={{ fontSize: '11px', textTransform: 'uppercase' }}>#{tag}</span>
-                        ))}
-                      </div>
-                    )}
                     <div className="post-list-date">{displayDate}</div>
                   </div>
                  </div>
@@ -94,7 +88,7 @@ export default async function Blog(props: Props) {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '16px' }}>
                 <h1 className="project-detail-title" style={{ marginBottom: 0 }}>{selectedPost.title}</h1>
                 <div style={{ fontSize: '13px', opacity: 0.6, flexShrink: 0 }}>
-                  {selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]}
+                  {(selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]).substring(2)}
                 </div>
               </div>
               {selectedPost.tags && selectedPost.tags.length > 0 && (

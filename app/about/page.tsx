@@ -10,17 +10,15 @@ export default function About() {
         [ ABOUT.SYS ]
       </header>
 
-      <div className="about-grid">
-        <div className="about-col">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px', marginBottom: '23px' }}>
-            <h1 className="page-title" style={{ marginBottom: 0 }}>BOOLU</h1>
-            <span style={{ opacity: 0.4, fontSize: '16px' }}>{'//'}</span>
-            <p className="page-subtitle" style={{ marginBottom: 0 }}>CREATIVE TECHNOLOGIST</p>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 'clamp(16px, 4vw, 32px)' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 'clamp(8px, 2vw, 14px)', marginBottom: 'clamp(16px, 3vw, 23px)', flexWrap: 'wrap' }}>
+            <h1 className="page-title" style={{ marginBottom: 0, fontSize: 'clamp(24px, 6vw, 32px)' }}>BOOLU</h1>
+            <span style={{ opacity: 0.4, fontSize: 'clamp(12px, 3vw, 16px)' }}>{'//'}</span>
+            <p className="page-subtitle" style={{ marginBottom: 0, fontSize: 'clamp(11px, 3vw, 14px)' }}>CREATIVE TECHNOLOGIST</p>
           </div>
-          
-          <div className="ascii-divider">{'// ────────────────────────────────────────'}</div>
 
-          <div className="about-bio" style={{ marginTop: '23px' }}>
+          <div className="about-bio" style={{ marginTop: 'clamp(16px, 4vw, 23px)' }}>
             <p>
               BOOLU is a creative technologist building interactive and immersive experiences with code, electronics, and sound.
             </p>
@@ -49,24 +47,21 @@ export default function About() {
             </div>
           </div>
 
-
+          <div className="ascii-divider" style={{ marginTop: 'clamp(24px, 5vw, 35px)' }}>{'// ────────────────────────────────────────'}</div>
 
         </div>
 
-        <div className="about-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: '100%', maxWidth: '402px', position: 'relative', margin: 'auto 0' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 'clamp(16px, 4vw, 32px)', padding: '0 clamp(16px, 4vw, 32px) clamp(16px, 4vw, 32px) clamp(16px, 4vw, 32px)', alignItems: 'flex-start' }}>
+          <div style={{ flex: '1 1 300px', maxWidth: '402px' }}>
             <img 
               src="/about-portrait.jpg" 
               alt="Portrait of BOOLU" 
               style={{ 
                 maxWidth: '100%', 
-                maxHeight: '55vh',
-                width: 'auto',
                 height: 'auto',
                 border: '1px solid var(--border)',
                 filter: 'grayscale(20%)',
-                display: 'block',
-                margin: '0 auto'
+                display: 'block'
               }} 
             />
             <div style={{ 
@@ -78,9 +73,10 @@ export default function About() {
             }}>
               [ PORTRAIT.JPG ]
             </div>
+          </div>
 
-
-            <div className="about-bio" style={{ marginTop: '23px', textAlign: 'left' }}>
+          <div style={{ flex: '1 1 300px' }}>
+            <div className="about-bio" style={{ textAlign: 'left' }}>
               <p>
                 BOOLU is from Manila, Philippines and is based in Barcelona, Spain. They speak English, Tagalog (Filipino), and Spanish. They have an established career in technology and hold an MBA from a global top business school. They enjoy producing electronic music, adventure travel, and bouldering. 
               </p>
