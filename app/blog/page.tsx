@@ -74,13 +74,14 @@ export default async function Blog(props: Props) {
           {posts.length === 0 ? (
             <div style={{ padding: '12px', fontSize: '11px', color: '#808080' }}>No posts found.</div>
           ) : (
-            posts.map((p) => {
+            posts.map((p, i) => {
               const date = shortDate((p.publishedAt || p._createdAt).slice(0, 10));
 
               return (
                 <Link key={p._id} href={`/blog?id=${p._id}`} scroll={false} style={{ display: 'block' }} data-nav>
                   <div className={`win-list-item win-list-item--blog${selectedId === p._id ? ' active' : ''}`}>
                     <span style={{ fontSize: '12px', flexShrink: 0 }}>📝</span>
+                    <span style={{ color: '#808080', flexShrink: 0 }}>[#{posts.length - 1 - i}]</span>
                     <span className="win-list-label">{p.title}</span>
                     <span className="win-list-date">{date}</span>
                   </div>
