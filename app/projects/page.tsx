@@ -5,6 +5,7 @@ import { urlForImage } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
 import ScrollReset from '@/components/ScrollReset';
 import AppWindow from '@/components/AppWindow';
+import { ptLinkMark } from '@/lib/portable-text';
 
 const PROJECTS_QUERY = `*[_type == "project"] | order(coalesce(publishedAt, _createdAt) desc) {
   _id,
@@ -17,12 +18,7 @@ const PROJECTS_QUERY = `*[_type == "project"] | order(coalesce(publishedAt, _cre
 }`;
 
 const portableTextComponents = {
-  marks: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    link: ({ value, children }: any) => (
-      <a href={value?.href} target="_blank" rel="noopener noreferrer">{children}</a>
-    ),
-  },
+  marks: ptLinkMark,
   types: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: ({ value }: any) => {

@@ -5,13 +5,10 @@ import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
 import ScrollReset from '@/components/ScrollReset';
 import AppWindow from '@/components/AppWindow';
+import { ptLinkMark } from '@/lib/portable-text';
 
 const ptComponents: PortableTextComponents = {
-  marks: {
-    link: ({ value, children }) => (
-      <a href={value?.href} target="_blank" rel="noopener noreferrer">{children}</a>
-    ),
-  },
+  marks: ptLinkMark,
   types: {
     image: ({ value }) => {
       if (!value?.asset?._ref) return null;
