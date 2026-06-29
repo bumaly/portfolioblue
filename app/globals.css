@@ -608,7 +608,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   background: var(--window-bg);
   border: 2px solid;
-  border-color: var(--border-mid) var(--border-light) var(--border-light) var(--border-mid);
+  border-color: var(--border-mid) #DFDFDF #DFDFDF var(--border-mid);
   box-shadow: inset 1px 1px 0 var(--border-dark);
   color: var(--text);
   font-family: var(--font-mono);
