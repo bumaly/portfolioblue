@@ -18,11 +18,11 @@ export function useTheme() {
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
     const stored = localStorage.getItem('boolu-theme') as Theme | null
-    const initial = stored ?? 'dark'
+    const initial = stored ?? 'light'
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(initial)
     document.documentElement.setAttribute('data-theme', initial)
