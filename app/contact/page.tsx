@@ -13,7 +13,7 @@ export default function Contact() {
   useEffect(() => {
     fetch('/api/guestbook')
       .then(res => res.json())
-      .then(data => setEntries(data))
+      .then(data => { if (Array.isArray(data)) setEntries(data) })
       .catch(err => console.error(err))
   }, [])
 
