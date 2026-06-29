@@ -46,6 +46,8 @@ type Props = {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
+const shortDate = (iso: string) => iso.slice(2, 10)
+
 export default async function Blog(props: Props) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedId = typeof searchParams.id === 'string' ? searchParams.id : undefined;
@@ -67,10 +69,7 @@ export default async function Blog(props: Props) {
             <div style={{ padding: '12px', fontSize: '11px', color: '#808080' }}>No posts found.</div>
           ) : (
             posts.map((p) => {
-              const date = (p.publishedAt
-                ? new Date(p.publishedAt)
-                : new Date(p._createdAt)
-              ).toISOString().split('T')[0].substring(2);
+              const date = shortDate((p.publishedAt || p._createdAt).slice(0, 10));
 
               return (
                 <Link key={p._id} href={`/blog?id=${p._id}`} scroll={false} style={{ display: 'block' }} data-nav>
@@ -95,10 +94,7 @@ export default async function Blog(props: Props) {
                     📝 {selectedPost.title}
                   </div>
                   <div style={{ fontSize: '11px', color: '#808080', flexShrink: 0 }}>
-                    {(selectedPost.publishedAt
-                      ? new Date(selectedPost.publishedAt)
-                      : new Date(selectedPost._createdAt)
-                    ).toISOString().split('T')[0].substring(2)}
+                    {shortDate((selectedPost.publishedAt || selectedPost._createdAt).slice(0, 10))}
                   </div>
                 </div>
                 {selectedPost.tags && selectedPost.tags.filter((t: string) => t?.trim()).length > 0 && (
