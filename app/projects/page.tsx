@@ -7,7 +7,7 @@ import ScrollReset from '@/components/ScrollReset';
 import AppWindow from '@/components/AppWindow';
 import { ptLinkMark } from '@/lib/portable-text';
 
-const PROJECTS_QUERY = `*[_type == "project"] | order(coalesce(publishedAt, _createdAt) desc) {
+const PROJECTS_QUERY = `*[_type == "project"] | order(coalesce(publishedAt, _createdAt) asc) {
   _id,
   title,
   "slug": slug.current,
