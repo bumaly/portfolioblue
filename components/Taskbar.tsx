@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { useTheme } from './ThemeProvider'
+import { NAV_ITEMS } from '@/lib/nav-items'
 
 export default function Taskbar() {
   const pathname = usePathname()
@@ -16,12 +17,7 @@ export default function Taskbar() {
     return () => clearInterval(id)
   }, [])
 
-  const pageLabel =
-    pathname.includes('/about') ? 'ABOUT.SYS'
-    : pathname.includes('/projects') ? 'PROJECTS.EXE'
-    : pathname.includes('/blog') ? 'BLOG.TXT'
-    : pathname.includes('/contact') ? 'GUEST.LOG'
-    : 'BOOLU.ART'
+  const pageLabel = NAV_ITEMS.find(i => pathname.startsWith(i.href))?.label ?? 'BOOLU.ART'
 
   return (
     <div className="taskbar">

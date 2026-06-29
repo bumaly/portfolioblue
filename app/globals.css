@@ -1,11 +1,11 @@
 /* ─────────────────────────────────────────────────────
    BOOLU.ART v2 — Windows NT/9x
-   Desktop: #0000AA · Chrome: #C0C0C0 · Title: #000080
+   Desktop: #0000AA · Chrome: var(--chrome) · Title: #000080
 ───────────────────────────────────────────────────── */
 
 :root {
   --desktop: #0000AA;
-  --chrome: #C0C0C0;
+  --chrome: var(--chrome);
   --chrome-dark: #808080;
   --titlebar-from: #000080;
   --titlebar-to: #1084D0;
@@ -409,7 +409,6 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   border-left: 1px solid var(--border-mid);
-  border-left-color: var(--border-mid);
   box-shadow: -1px 0 0 var(--border-light);
   padding-left: 4px;
 }
@@ -494,7 +493,7 @@ img { display: block; max-width: 100%; }
 /* ── Project/post detail ── */
 .win-detail-header {
   padding: 12px 16px 10px;
-  border-bottom: 1px solid #C0C0C0;
+  border-bottom: 1px solid var(--chrome);
   background: var(--chrome);
 }
 
@@ -558,7 +557,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.04em;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #C0C0C0;
+  border-bottom: 1px solid var(--chrome);
   color: var(--text);
 }
 
@@ -677,7 +676,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--font-mono);
 }
 .win-post-body p { margin-bottom: 16px; }
-.win-post-body h1, .win-post-body h2 { font-size: 14px; font-weight: bold; text-transform: uppercase; margin: 20px 0 8px; border-bottom: 1px solid #C0C0C0; padding-bottom: 4px; }
+.win-post-body h1, .win-post-body h2 { font-size: 14px; font-weight: bold; text-transform: uppercase; margin: 20px 0 8px; border-bottom: 1px solid var(--chrome); padding-bottom: 4px; }
 .win-post-body h3 { font-size: 12px; font-weight: bold; text-transform: uppercase; margin: 16px 0 6px; }
 .win-post-body ul, .win-post-body ol { margin: 0 0 14px 20px; }
 .win-post-body li { margin-bottom: 4px; }
@@ -743,7 +742,7 @@ img { display: block; max-width: 100%; }
 
   .tree-item {
     padding: 4px 8px;
-    border-right: 1px solid #C0C0C0;
+    border-right: 1px solid var(--chrome);
     flex-shrink: 0;
   }
 

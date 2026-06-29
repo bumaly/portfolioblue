@@ -2,13 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-const NAV_ITEMS = [
-  { label: 'ABOUT.SYS',    href: '/about',    icon: '📄' },
-  { label: 'PROJECTS.EXE', href: '/projects', icon: '📁' },
-  { label: 'BLOG.TXT',     href: '/blog',     icon: '📝' },
-  { label: 'GUEST.LOG',    href: '/contact',  icon: '📋' },
-]
+import { NAV_ITEMS } from '@/lib/nav-items'
 
 export default function Nav() {
   const pathname = usePathname()
@@ -25,12 +19,7 @@ export default function Nav() {
           <button className="win-btn win-btn-close" aria-label="Close">✕</button>
         </div>
       </div>
-      <div className="file-pane-toolbar">
-        <button className="menu-item">File</button>
-        <button className="menu-item">View</button>
-        <button className="menu-item">Help</button>
-      </div>
-      <div className="file-tree-container">
+<div className="file-tree-container">
         <div className="tree-root-label">📁 BOOLU.ART</div>
         <div className="file-tree">
           {NAV_ITEMS.map((item) => (

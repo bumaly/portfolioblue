@@ -20,13 +20,7 @@ export default function AppWindow({ title, children, statusLeft, statusRight, cl
           <button className="win-btn win-btn-close" aria-label="Close">✕</button>
         </div>
       </div>
-      <div className="window-menubar">
-        <button className="menu-item">File</button>
-        <button className="menu-item">Edit</button>
-        <button className="menu-item">View</button>
-        <button className="menu-item">Help</button>
-      </div>
-      <div className="window-body">
+<div className="window-body">
         {children}
       </div>
       {(statusLeft || statusRight) && (

@@ -64,9 +64,7 @@ export default async function Projects(props: Props) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedProject = projects.find((p: any) => p.slug === selectedSlug);
 
-  const statusLeft = selectedProject
-    ? `${projects.length} objects`
-    : `${projects.length} objects`;
+  const statusLeft = `${projects.length} objects`;
   const statusRight = selectedProject
     ? (selectedProject.title || selectedProject.slug).toUpperCase()
     : 'No selection';
