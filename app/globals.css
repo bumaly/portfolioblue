@@ -681,6 +681,8 @@ img { display: block; max-width: 100%; }
 .win-post-body ul, .win-post-body ol { margin: 0 0 14px 20px; }
 .win-post-body li { margin-bottom: 4px; }
 .win-post-body blockquote { border-left: 3px solid var(--border-mid); margin: 14px 0; padding: 4px 12px; opacity: 0.8; }
+.win-post-body a, .win-detail-body a { color: #0000EE; text-decoration: underline; }
+.win-post-body a:visited, .win-detail-body a:visited { color: #551A8B; }
 
 /* ── Status message variants ── */
 .win-status-msg--ok  { color: #004000; background: #D4F0D4; }

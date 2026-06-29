@@ -21,13 +21,14 @@ const portableTextComponents = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: ({ value }: any) => {
       if (!value?.asset?._ref) return null;
+      const maxWidth = value.size === 'small' ? '33%' : value.size === 'medium' ? '66%' : '100%';
       return (
         <Image
           alt={value.alt || ' '}
           src={urlForImage(value)?.url() || ''}
           width={800}
           height={600}
-          style={{ maxWidth: '100%', height: 'auto' }}
+          style={{ maxWidth, height: 'auto', display: 'block', margin: '14px auto' }}
         />
       );
     },

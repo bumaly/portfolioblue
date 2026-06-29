@@ -12,6 +12,7 @@ const ptComponents: PortableTextComponents = {
       if (!value?.asset?._ref) return null;
       const imageUrl = urlForImage(value)?.url();
       if (!imageUrl) return null;
+      const maxWidth = value.size === 'small' ? '33%' : value.size === 'medium' ? '66%' : '100%';
       return (
         <Image
           alt={value.alt || 'Blog post image'}
@@ -19,7 +20,7 @@ const ptComponents: PortableTextComponents = {
           width={800}
           height={600}
           style={{
-            maxWidth: '100%',
+            maxWidth,
             height: 'auto',
             display: 'block',
             margin: '14px auto',

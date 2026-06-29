@@ -27,9 +27,25 @@ export default defineType({
       type: 'array',
       of: [
         { type: 'block' },
-        { 
+        {
           type: 'image',
-          options: { hotspot: true }
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'size',
+              title: 'Display size',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Small (33%)', value: 'small' },
+                  { title: 'Medium (66%)', value: 'medium' },
+                  { title: 'Full width', value: 'full' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'full',
+            }),
+          ],
         },
         { type: 'videoEmbed' }
       ],
@@ -41,7 +57,6 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'tags',
