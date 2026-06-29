@@ -6,7 +6,7 @@ import { PortableText } from '@portabletext/react';
 import ScrollReset from '@/components/ScrollReset';
 import AppWindow from '@/components/AppWindow';
 
-const PROJECTS_QUERY = `*[_type == "project"] | order(publishedAt desc) {
+const PROJECTS_QUERY = `*[_type == "project"] | order(coalesce(publishedAt, _createdAt) desc) {
   _id,
   title,
   "slug": slug.current,
