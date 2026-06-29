@@ -6,7 +6,7 @@ import { NAV_ITEMS } from '@/lib/nav-items'
 
 export default function Taskbar() {
   const pathname = usePathname()
-  const { toggle } = useTheme()
+  const { theme, toggle } = useTheme()
   const [time, setTime] = useState('')
 
   useEffect(() => {
@@ -21,8 +21,8 @@ export default function Taskbar() {
 
   return (
     <div className="taskbar">
-      <button className="start-btn">
-        <span style={{ marginRight: 4 }}>▓</span> Start
+      <button className="start-btn" onClick={toggle} title="Toggle dark/light mode">
+        <span style={{ marginRight: 4 }}>▓</span> {theme === 'dark' ? '☀ Light' : '☾ Dark'}
       </button>
       <div className="taskbar-separator" />
       <div className="taskbar-apps">
@@ -31,7 +31,7 @@ export default function Taskbar() {
         </button>
       </div>
       <div className="taskbar-tray">
-        <button className="taskbar-clock" onClick={toggle} title="Toggle theme">
+        <button className="taskbar-clock">
           {time}
         </button>
       </div>
