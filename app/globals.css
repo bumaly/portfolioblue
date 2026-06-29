@@ -1,11 +1,11 @@
 /* ─────────────────────────────────────────────────────
    BOOLU.ART v2 — Windows NT/9x
-   Desktop: #0000AA · Chrome: var(--chrome) · Title: #000080
+   Desktop: #0000AA · Chrome: #C0C0C0 · Title: #000080
 ───────────────────────────────────────────────────── */
 
 :root {
   --desktop: #0000AA;
-  --chrome: var(--chrome);
+  --chrome: #C0C0C0;
   --chrome-dark: #808080;
   --titlebar-from: #000080;
   --titlebar-to: #1084D0;
