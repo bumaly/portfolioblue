@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# boolu.art
 
-## Getting Started
+Personal portfolio for BOOLU — creative technologist based in Barcelona.
 
-First, run the development server:
+**Stack:** Next.js 16 · React 19 · TypeScript · Sanity v5 · Neon (PostgreSQL) · Drizzle ORM · Resend · Vercel  
+**Design:** Windows 95 / NT aesthetic — light mode default, dark mode via Start button toggle
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Update Log
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2026-06-29
+- **Scroll reset fixed** — navigating to a new project or blog post now loads at the top, not where you left off (`ScrollReset.tsx` was targeting old layout selectors)
+- **Sanity fetch cache disabled** — projects and blog always load in the correct order, no stale Next.js cache
+- **Projects sorted by date** — Sanity query now orders by `publishedAt desc`
+- **Light mode default** — site loads in light mode; dark mode toggled via Start button
+- **Dark mode link color fixed** — links in dark mode now use `#7EB8F7` (was near-invisible `#0000AA`)
+- **Sanity Studio publish button restored** — `overflow` clip on studio layout was blocking the publish dropdown
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2026-06-29 (v2 launch)
+- Full redesign: CRT terminal aesthetic replaced with Windows 95 / NT chrome
+- Win95 layout: file pane + app window + taskbar
+- Dark mode via CSS token overrides, persisted in `localStorage`
+- Sanity CMS: `project` and `post` types with image sizing, video embeds
+- Guestbook via Neon PostgreSQL + Drizzle ORM
+- Contact form via Resend
+- Sanity Studio unblocked in production (`/studio`)
