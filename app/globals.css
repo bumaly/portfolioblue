@@ -660,6 +660,54 @@ img { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* ── Blog list items (icon + label + date) ── */
+.win-list-item--blog { justify-content: space-between; }
+.win-list-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.win-list-date { font-size: 10px; flex-shrink: 0; opacity: 0.75; margin-left: 6px; }
+
+/* ── Blog post body ── */
+.win-post-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text);
+  font-family: var(--font-mono);
+}
+.win-post-body p { margin-bottom: 16px; }
+.win-post-body h1, .win-post-body h2 { font-size: 14px; font-weight: bold; text-transform: uppercase; margin: 20px 0 8px; border-bottom: 1px solid #C0C0C0; padding-bottom: 4px; }
+.win-post-body h3 { font-size: 12px; font-weight: bold; text-transform: uppercase; margin: 16px 0 6px; }
+.win-post-body ul, .win-post-body ol { margin: 0 0 14px 20px; }
+.win-post-body li { margin-bottom: 4px; }
+.win-post-body blockquote { border-left: 3px solid var(--border-mid); margin: 14px 0; padding: 4px 12px; opacity: 0.8; }
+
+/* ── Status message variants ── */
+.win-status-msg--ok  { color: #004000; background: #D4F0D4; }
+.win-status-msg--err { color: #400000; background: #F0D4D4; }
+
+/* ── Guestbook log entries ── */
+.win-log-entry {
+  border: 2px solid;
+  border-color: var(--border-mid) var(--border-light) var(--border-light) var(--border-mid);
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.win-log-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 8px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--border-mid);
+  font-size: 11px;
+}
+.win-log-entry-name { font-weight: bold; }
+.win-log-entry-date { opacity: 0.65; white-space: nowrap; }
+.win-log-entry-message { padding: 8px; white-space: pre-wrap; word-break: break-word; line-height: 1.6; }
+
+/* ── Shorter textarea variant ── */
+.win-form-textarea--short { min-height: 48px; }
+
 /* ── Mobile (stack layout) ── */
 @media (max-width: 883px) {
   html, body { overflow-y: auto; }

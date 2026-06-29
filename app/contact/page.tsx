@@ -1,10 +1,7 @@
-/* ════════════════════════════════════════════════════════
-   Contact Page
-   2-Col Layout: Col 2 (Form) and Col 3 (Guestbook)
-   ════════════════════════════════════════════════════════ */
 'use client'
 
 import { useState, useEffect } from 'react'
+import AppWindow from '@/components/AppWindow'
 
 type GuestbookEntry = { id: number; name: string; message: string; createdAt: string }
 
@@ -37,13 +34,11 @@ export default function Contact() {
     setGuestbookStatus('loading')
     const form = e.currentTarget
     const formData = new FormData(form)
-    
     const res = await fetch('/api/guestbook', {
       method: 'POST',
       body: JSON.stringify(Object.fromEntries(formData)),
       headers: { 'Content-Type': 'application/json' }
     })
-    
     if (res.ok) {
       const newEntry = await res.json()
       setEntries([newEntry, ...entries])
@@ -52,90 +47,80 @@ export default function Contact() {
     setGuestbookStatus('idle')
   }
 
+  const statusRight = entries.length > 0 ? `${entries.length} entries` : 'No entries'
+
   return (
-    <section className="col col-scrollable" style={{ flex: 1, borderRight: 'none' }}>
+    <AppWindow title="GUEST.LOG — BOOLU" statusLeft="CONTACT + GUESTBOOK" statusRight={statusRight}>
+      <div className="win-content-scroll">
+        <div className="win-about-body">
 
+          {/* ── Contact form ─────────────────────────────── */}
+          <div className="win-about-header">📋 TRANSMIT.MSG // DIRECT COMM LINK</div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '32px' }}>
-        {/* Contact Form Section */}
-        <div>
-          <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', rowGap: '4px', columnGap: '12px', marginBottom: '24px' }}>
-            <h2 className="project-detail-title" style={{ margin: 0, whiteSpace: 'nowrap' }}>TRANSMIT MSG</h2>
-            <p className="page-subtitle" style={{ fontSize: '11px', opacity: 0.5, margin: 0, textTransform: 'uppercase' }}>DIRECT COMM LINK TO BOOLU.</p>
-          </div>
-
-          <form onSubmit={handleContactSubmit}>
-            <div className="form-group" style={{ marginBottom: '12px' }}>
-              <input type="text" id="name" name="name" className="form-input" placeholder="[ NAME ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
+          <form onSubmit={handleContactSubmit} style={{ maxWidth: '480px' }}>
+            <div className="win-form-group">
+              <input type="text" name="name" className="win-form-input" placeholder="NAME" required />
             </div>
-            
-            <div className="form-group" style={{ marginBottom: '12px' }}>
-              <input type="email" id="email" name="email" className="form-input" placeholder="[ EMAIL ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
+            <div className="win-form-group">
+              <input type="email" name="email" className="win-form-input" placeholder="EMAIL" required />
             </div>
-            
-            <div className="form-group" style={{ marginBottom: '12px' }}>
-              <textarea id="message" name="message" className="form-textarea" placeholder="[ MESSAGE ]" required style={{ padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)', minHeight: '60px' }}></textarea>
+            <div className="win-form-group">
+              <textarea name="message" className="win-form-textarea" placeholder="MESSAGE" required />
             </div>
-            
-            <button type="submit" className="btn-primary" style={{ padding: '7px 14px', fontSize: '11px' }} disabled={formStatus === 'loading'}>
-              {formStatus === 'loading' ? 'SENDING...' : 'SEND'}
+            <button type="submit" className="win-btn-primary" disabled={formStatus === 'loading'}>
+              {formStatus === 'loading' ? 'SENDING...' : 'SEND →'}
             </button>
-
             {formStatus === 'success' && (
-              <div className="status-msg success">TRANSMISSION SUCCESSFUL.</div>
+              <div className="win-status-msg win-status-msg--ok">TRANSMISSION SUCCESSFUL.</div>
             )}
             {formStatus === 'error' && (
-              <div className="status-msg error">TRANSMISSION FAILED. RETRY.</div>
+              <div className="win-status-msg win-status-msg--err">TRANSMISSION FAILED. RETRY.</div>
             )}
           </form>
-        </div>
 
-        <div className="ascii-divider">{'// ────────────────────────────────────────'}</div>
+          <div style={{ borderTop: '1px solid', borderColor: '#808080', margin: '20px 0' }} />
 
-        {/* Guestbook Section */}
-        <div>
-          <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', rowGap: '4px', columnGap: '12px', marginBottom: '24px' }}>
-            <h2 className="project-detail-title" style={{ margin: 0, whiteSpace: 'nowrap' }}>PUBLIC LOG</h2>
-            <p className="page-subtitle" style={{ fontSize: '11px', opacity: 0.5, margin: 0, textTransform: 'uppercase' }}>GUESTBOOK ENTRIES (AUTO-PUBLISHED)</p>
-          </div>
+          {/* ── Guestbook ────────────────────────────────── */}
+          <div className="win-about-header">📝 PUBLIC.LOG // GUESTBOOK ENTRIES</div>
 
-          <form onSubmit={handleGuestbookSubmit} style={{ marginBottom: '37px' }}>
-             {/* Honeypot field - invisible to users, traps bots */}
-             <input type="text" name="website_url" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
-             <div style={{ display: 'flex', gap: '9px', marginBottom: '9px' }}>
-                <input type="text" name="name" className="form-input" placeholder="[ NAME ]" required style={{ flex: 1, padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }} />
-             </div>
-             <textarea name="message" className="form-textarea" placeholder="[ LEAVE A PUBLIC MESSAGE... ]" required style={{ minHeight: '40px', marginBottom: '9px', padding: '6px 8px', fontSize: '11px', border: '1px solid var(--border)' }}></textarea>
-             <button type="submit" className="btn-primary" style={{ padding: '7px 14px', fontSize: '11px' }} disabled={guestbookStatus === 'loading'}>
-               {guestbookStatus === 'loading' ? 'SIGNING...' : 'SIGN'}
-             </button>
+          <form onSubmit={handleGuestbookSubmit} style={{ maxWidth: '480px', marginBottom: '20px' }}>
+            {/* ponytail: honeypot — traps bots, never displayed */}
+            <input type="text" name="website_url" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+            <div className="win-form-group">
+              <input type="text" name="name" className="win-form-input" placeholder="NAME" required />
+            </div>
+            <div className="win-form-group">
+              <textarea name="message" className="win-form-textarea win-form-textarea--short" placeholder="LEAVE A PUBLIC MESSAGE..." required />
+            </div>
+            <button type="submit" className="win-btn-primary" disabled={guestbookStatus === 'loading'}>
+              {guestbookStatus === 'loading' ? 'SIGNING...' : 'SIGN LOG →'}
+            </button>
           </form>
 
-          <div className="ascii-divider">{'// ────────────────────────────────────────'}</div>
-
-          <div style={{ marginTop: '18px' }}>
-             {entries.length === 0 ? (
-               <div className="guestbook-entry" style={{ opacity: 0.5, fontSize: '11px' }}>NO LOGS FOUND. BE THE FIRST.</div>
-             ) : (
-               entries.map(entry => (
-                  <div key={entry.id} className="guestbook-entry" style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '11px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
-                      <div className="guestbook-name" style={{ whiteSpace: 'nowrap', marginBottom: 0 }}>
-                        [{entry.name.toUpperCase()}]:
-                      </div>
-                      <div className="guestbook-date" style={{ flexShrink: 0, marginBottom: 0, whiteSpace: 'nowrap' }}>
-                        {new Date(entry.createdAt).toISOString().replace('T', ' ').slice(0, 16)}
-                      </div>
-                    </div>
-                    <div className="guestbook-message" style={{ opacity: 0.9, wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
-                      {entry.message}
-                    </div>
+          <div>
+            {entries.length === 0 ? (
+              <div className="win-empty" style={{ border: '2px solid', borderColor: '#808080 #FFFFFF #FFFFFF #808080', padding: '24px', marginTop: '8px' }}>
+                <div style={{ fontSize: '20px' }}>📋</div>
+                <div>No entries yet.</div>
+                <div style={{ fontSize: '11px' }}>Be the first to sign.</div>
+              </div>
+            ) : (
+              entries.map(entry => (
+                <div key={entry.id} className="win-log-entry">
+                  <div className="win-log-entry-header">
+                    <span className="win-log-entry-name">[{entry.name.toUpperCase()}]</span>
+                    <span className="win-log-entry-date">
+                      {new Date(entry.createdAt).toISOString().replace('T', ' ').slice(0, 16)}
+                    </span>
                   </div>
-               ))
-             )}
+                  <div className="win-log-entry-message">{entry.message}</div>
+                </div>
+              ))
+            )}
           </div>
+
         </div>
       </div>
-    </section>
+    </AppWindow>
   )
 }

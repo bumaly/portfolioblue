@@ -4,23 +4,28 @@ import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { client } from '../../sanity/lib/client';
 import { urlForImage } from '../../sanity/lib/image';
 import ScrollReset from '@/components/ScrollReset';
+import AppWindow from '@/components/AppWindow';
+
 const ptComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
-      if (!value?.asset?._ref) {
-        return null;
-      }
+      if (!value?.asset?._ref) return null;
       const imageUrl = urlForImage(value)?.url();
-      if (!imageUrl) {
-        return null;
-      }
+      if (!imageUrl) return null;
       return (
         <Image
           alt={value.alt || 'Blog post image'}
           src={imageUrl}
           width={800}
           height={600}
-          style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '2rem 0' }}
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+            display: 'block',
+            margin: '14px auto',
+            border: '2px solid',
+            borderColor: '#808080 #FFFFFF #FFFFFF #808080',
+          }}
         />
       );
     },
@@ -30,7 +35,6 @@ const ptComponents: PortableTextComponents = {
 type Post = {
   _id: string;
   title: string;
-  slug: { current: string };
   publishedAt: string;
   _createdAt: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,82 +47,84 @@ type Props = {
 }
 
 export default async function Blog(props: Props) {
-  // Wait for searchParams to resolve in Next 15+
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedId = typeof searchParams.id === 'string' ? searchParams.id : undefined;
 
   const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt desc, _createdAt desc)');
-
   const selectedPost = selectedId ? posts.find(p => p._id === selectedId) : undefined;
 
+  const statusLeft = `${posts.length} entries`;
+  const statusRight = selectedPost ? selectedPost.title : 'No entry selected';
+
   return (
-    <>
+    <AppWindow title="BLOG.TXT — BOOLU" statusLeft={statusLeft} statusRight={statusRight}>
       <ScrollReset dep={selectedId} />
-      <section className="col col-2 col-scrollable">
+      <div className="win-split">
 
+        {/* Left: post list */}
+        <div className="win-split-left">
+          {posts.length === 0 ? (
+            <div style={{ padding: '12px', fontSize: '11px', color: '#808080' }}>No posts found.</div>
+          ) : (
+            posts.map((p) => {
+              const date = (p.publishedAt
+                ? new Date(p.publishedAt)
+                : new Date(p._createdAt)
+              ).toISOString().split('T')[0].substring(2);
 
-        <div>
-          {posts.map((p) => {
-             const isActive = selectedId === p._id;
-             const fullDate = p.publishedAt ? new Date(p.publishedAt).toISOString().split('T')[0] : new Date(p._createdAt).toISOString().split('T')[0];
-             const displayDate = fullDate.substring(2);
-             return (
-               <Link 
-                 key={p._id} 
-                 href={`/blog?id=${p._id}`} 
-                 style={{ display: 'block' }}
-                 data-nav
-                 scroll={false}
-               >
-                 <div className={`post-list-item ${isActive ? 'active' : ''}`}>
-                  <div className="post-list-title" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexShrink: 0 }}>
-                    <div className="post-list-date">{displayDate}</div>
+              return (
+                <Link key={p._id} href={`/blog?id=${p._id}`} scroll={false} style={{ display: 'block' }} data-nav>
+                  <div className={`win-list-item win-list-item--blog${selectedId === p._id ? ' active' : ''}`}>
+                    <span style={{ fontSize: '12px', flexShrink: 0 }}>📝</span>
+                    <span className="win-list-label">{p.title}</span>
+                    <span className="win-list-date">{date}</span>
                   </div>
-                 </div>
-               </Link>
-             );
-          })}
+                </Link>
+              );
+            })
+          )}
         </div>
-      </section>
 
-      <section className="col col-3">
-
-        {selectedPost ? (
-          <div>
-            <div className="detail-meta">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '16px' }}>
-                <h1 className="project-detail-title" style={{ marginBottom: 0 }}>{selectedPost.title}</h1>
-                <div style={{ fontSize: '13px', opacity: 0.6, flexShrink: 0 }}>
-                  {(selectedPost.publishedAt ? new Date(selectedPost.publishedAt).toISOString().split('T')[0] : new Date(selectedPost._createdAt).toISOString().split('T')[0]).substring(2)}
+        {/* Right: post detail */}
+        <div className="win-split-right">
+          {selectedPost ? (
+            <div>
+              <div className="win-detail-header">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '12px' }}>
+                  <div className="win-detail-title" style={{ marginBottom: 0 }}>
+                    📝 {selectedPost.title}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#808080', flexShrink: 0 }}>
+                    {(selectedPost.publishedAt
+                      ? new Date(selectedPost.publishedAt)
+                      : new Date(selectedPost._createdAt)
+                    ).toISOString().split('T')[0].substring(2)}
+                  </div>
                 </div>
+                {selectedPost.tags && selectedPost.tags.filter((t: string) => t?.trim()).length > 0 && (
+                  <div className="win-detail-tags">
+                    {selectedPost.tags.filter((t: string) => t?.trim()).map((tag: string) => (
+                      <span key={tag} className="win-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
               </div>
-              {selectedPost.tags && selectedPost.tags.length > 0 && (
-                <div className="detail-tags">
-                  {selectedPost.tags.filter((t: string) => t && t.trim() !== '').map(tag => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
-                </div>
-              )}
+              <div className="win-post-body">
+                {selectedPost.body ? (
+                  <PortableText value={selectedPost.body} components={ptComponents} />
+                ) : null}
+              </div>
             </div>
-            <div className="post-body">
-              {selectedPost.body ? (
-                <PortableText value={selectedPost.body} components={ptComponents} />
-              ) : null}
+          ) : (
+            <div className="win-empty">
+              <div style={{ fontSize: '24px' }}>📄</div>
+              <div>No entry selected.</div>
+              <div style={{ fontSize: '11px' }}>Select a log from the list.</div>
             </div>
-          </div>
-        ) : (
-          <div className="empty-state">
-            <pre className="ascii-art">
-{`  \\||/
-  -  -
-  /||\\`}
-            </pre>
-            <p>NO LOG SELECTED.</p>
-            <p style={{ opacity: 0.5 }}>Select a file from the list.</p>
-          </div>
-        )}
-      </section>
-    </>
+          )}
+        </div>
+
+      </div>
+    </AppWindow>
   );
 }
