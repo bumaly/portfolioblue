@@ -12,7 +12,7 @@ export default function Nav() {
     <div className="file-pane">
       <div className="file-pane-titlebar">
         <span className="window-icon">📁</span>
-        boolu.art
+        BOOLU.ART
         <div className="window-controls" style={{ marginLeft: 'auto' }}>
           <button className="win-btn" aria-label="Minimize">_</button>
           <button className="win-btn" aria-label="Maximize">□</button>
@@ -20,7 +20,7 @@ export default function Nav() {
         </div>
       </div>
 <div className="file-tree-container">
-        <div className="tree-root-label">📁 boolu.art</div>
+        <div className="tree-root-label">📁 BOOLU.ART</div>
         <div className="file-tree">
           {NAV_ITEMS.map((item) => (
             <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
