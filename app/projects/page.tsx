@@ -17,6 +17,12 @@ const PROJECTS_QUERY = `*[_type == "project"] | order(publishedAt desc) {
 }`;
 
 const portableTextComponents = {
+  marks: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    link: ({ value, children }: any) => (
+      <a href={value?.href} target="_blank" rel="noopener noreferrer">{children}</a>
+    ),
+  },
   types: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: ({ value }: any) => {

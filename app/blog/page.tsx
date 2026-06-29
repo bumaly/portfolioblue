@@ -7,6 +7,11 @@ import ScrollReset from '@/components/ScrollReset';
 import AppWindow from '@/components/AppWindow';
 
 const ptComponents: PortableTextComponents = {
+  marks: {
+    link: ({ value, children }) => (
+      <a href={value?.href} target="_blank" rel="noopener noreferrer">{children}</a>
+    ),
+  },
   types: {
     image: ({ value }) => {
       if (!value?.asset?._ref) return null;
