@@ -58,7 +58,7 @@ export default async function Blog(props: Props) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedId = typeof searchParams.id === 'string' ? searchParams.id : undefined;
 
-  const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt desc, _createdAt desc)');
+  const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt desc, _createdAt desc)', {}, { cache: 'no-store' });
   const selectedPost = selectedId ? posts.find(p => p._id === selectedId) : undefined;
 
   const statusLeft = `${posts.length} entries`;

@@ -67,7 +67,7 @@ type Props = {
 export default async function Projects(props: Props) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedSlug = typeof searchParams.slug === 'string' ? searchParams.slug : undefined;
-  const projects = await client.fetch(PROJECTS_QUERY);
+  const projects = await client.fetch(PROJECTS_QUERY, {}, { cache: 'no-store' });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedProject = projects.find((p: any) => p.slug === selectedSlug);
 
