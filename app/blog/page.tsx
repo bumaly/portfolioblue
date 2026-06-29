@@ -110,9 +110,7 @@ export default async function Blog(props: Props) {
                 )}
               </div>
               <div className="win-post-body">
-                {selectedPost.body ? (
-                  <PortableText value={selectedPost.body} components={ptComponents} />
-                ) : null}
+                {selectedPost.body && <PortableText value={selectedPost.body} components={ptComponents} />}
               </div>
             </div>
           ) : (

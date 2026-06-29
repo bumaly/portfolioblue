@@ -78,7 +78,7 @@ export default function Contact() {
             )}
           </form>
 
-          <div style={{ borderTop: '1px solid', borderColor: '#808080', margin: '20px 0' }} />
+          <div style={{ borderTop: '1px solid #808080', margin: '20px 0' }} />
 
           {/* ── Guestbook ────────────────────────────────── */}
           <div className="win-about-header">📝 PUBLIC.LOG // GUESTBOOK ENTRIES</div>
@@ -99,7 +99,7 @@ export default function Contact() {
 
           <div>
             {entries.length === 0 ? (
-              <div className="win-empty" style={{ border: '2px solid', borderColor: '#808080 #FFFFFF #FFFFFF #808080', padding: '24px', marginTop: '8px' }}>
+              <div className="win-empty win-empty--contact">
                 <div style={{ fontSize: '20px' }}>📋</div>
                 <div>No entries yet.</div>
                 <div style={{ fontSize: '11px' }}>Be the first to sign.</div>

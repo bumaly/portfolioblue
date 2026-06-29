@@ -660,6 +660,9 @@ img { display: block; max-width: 100%; }
   color: var(--text);
 }
 
+/* ── Contact empty state ── */
+.win-empty--contact { border: 2px solid; border-color: #808080 #FFFFFF #FFFFFF #808080; padding: 24px; margin-top: 8px; }
+
 /* ── Blog list items (icon + label + date) ── */
 .win-list-item--blog { justify-content: space-between; }
 .win-list-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
