@@ -13,11 +13,11 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'BOOLU.ART — Digital Illustration & Mixed Media Portfolio',
+  title: 'boolu.art — Digital Illustration & Mixed Media Portfolio',
   description: 'Portfolio of BOOLU — digital illustrator and mixed media artist.',
   keywords: ['digital illustration', 'mixed media', 'art portfolio', 'boolu'],
   openGraph: {
-    title: 'BOOLU.ART',
+    title: 'boolu.art',
     description: 'Digital Illustration & Mixed Media Portfolio',
     type: 'website',
   },
