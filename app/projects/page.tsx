@@ -82,10 +82,11 @@ export default async function Projects(props: Props) {
             <div style={{ padding: '12px', fontSize: '11px', color: '#808080' }}>No projects found.</div>
           ) : (
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            projects.map((p: any) => (
+            projects.map((p: any, i: number) => (
               <Link key={p._id} href={`/projects?slug=${p.slug}`} scroll={false} style={{ display: 'block' }} data-nav>
                 <div className={`win-list-item${selectedSlug === p.slug ? ' active' : ''}`}>
                   <span style={{ fontSize: '12px' }}>📄</span>
+                  <span style={{ color: '#808080', flexShrink: 0 }}>[#{projects.length - 1 - i}]</span>
                   <span>{(p.title || p.slug).toUpperCase()}</span>
                 </div>
               </Link>
