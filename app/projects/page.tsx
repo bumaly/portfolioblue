@@ -4,6 +4,7 @@ import { client } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
 import ScrollReset from '@/components/ScrollReset';
+import AppWindow from '@/components/AppWindow';
 
 const PROJECTS_QUERY = `*[_type == "project"] | order(publishedAt desc) {
   _id,
@@ -34,14 +35,9 @@ const portableTextComponents = {
     videoEmbed: ({ value }: any) => {
       if (!value?.url) return null;
       let embedUrl = value.url;
-      // Convert standard youtube URL to embed URL
-      if (embedUrl.includes('youtube.com/watch?v=')) {
-        embedUrl = embedUrl.replace('youtube.com/watch?v=', 'youtube.com/embed/');
-      } else if (embedUrl.includes('youtu.be/')) {
-        embedUrl = embedUrl.replace('youtu.be/', 'youtube.com/embed/');
-      } else if (embedUrl.includes('vimeo.com/')) {
-        embedUrl = embedUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
-      }
+      if (embedUrl.includes('youtube.com/watch?v=')) embedUrl = embedUrl.replace('youtube.com/watch?v=', 'youtube.com/embed/');
+      else if (embedUrl.includes('youtu.be/')) embedUrl = embedUrl.replace('youtu.be/', 'youtube.com/embed/');
+      else if (embedUrl.includes('vimeo.com/')) embedUrl = embedUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
       return (
         <iframe
           className="video-embed"
@@ -50,6 +46,7 @@ const portableTextComponents = {
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          style={{ width: '100%', aspectRatio: '16/9', border: '2px solid #808080', margin: '12px 0' }}
         />
       );
     }
@@ -63,79 +60,78 @@ type Props = {
 export default async function Projects(props: Props) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedSlug = typeof searchParams.slug === 'string' ? searchParams.slug : undefined;
-
   const projects = await client.fetch(PROJECTS_QUERY);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedProject = projects.find((p: any) => p.slug === selectedSlug);
 
-  return (
-    <>
-      <ScrollReset dep={selectedSlug} />
-      <section className="col col-2 col-scrollable">
+  const statusLeft = selectedProject
+    ? `${projects.length} objects`
+    : `${projects.length} objects`;
+  const statusRight = selectedProject
+    ? (selectedProject.title || selectedProject.slug).toUpperCase()
+    : 'No selection';
 
-        <div>
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          {projects.length > 0 ? projects.map((p: any) => {
-            const isActive = selectedSlug === p.slug;
-            
-            return (
-              <Link 
-                key={p._id} 
-                href={`/projects?slug=${p.slug}`} 
-                style={{ display: 'block' }}
-                scroll={false}
-                data-nav
-              >
-                <div className={`project-list-item ${isActive ? 'active' : ''}`}>
-                  <div className="project-list-title">{(p.title || p.slug).toUpperCase()}</div>
+  return (
+    <AppWindow title="PROJECTS.EXE — BOOLU" statusLeft={statusLeft} statusRight={statusRight}>
+      <ScrollReset dep={selectedSlug} />
+      <div className="win-split">
+        {/* Left: project list */}
+        <div className="win-split-left">
+          {projects.length === 0 ? (
+            <div style={{ padding: '12px', fontSize: '11px', color: '#808080' }}>No projects found.</div>
+          ) : (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            projects.map((p: any) => (
+              <Link key={p._id} href={`/projects?slug=${p.slug}`} scroll={false} style={{ display: 'block' }} data-nav>
+                <div className={`win-list-item${selectedSlug === p.slug ? ' active' : ''}`}>
+                  <span style={{ fontSize: '12px' }}>📄</span>
+                  <span>{(p.title || p.slug).toUpperCase()}</span>
                 </div>
               </Link>
-            );
-          }) : (
-             <div style={{ padding: '23px', fontSize: '13px', opacity: 0.5 }}>NO PROJECTS FOUND IN CMS.</div>
+            ))
           )}
         </div>
-      </section>
 
-      <section className="col col-3 col-scrollable">
-        
-        {selectedProject ? (
-          <div>
-            <div className="detail-meta">
-              <h1 className="project-detail-title" style={{ marginBottom: 0 }}>{(selectedProject.title || selectedProject.slug).toUpperCase()}.TXT</h1>
-              <div className="detail-tags">
-                {selectedProject.tags?.filter((t: string) => t && t.trim() !== '').map((tag: string) => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
+        {/* Right: project detail */}
+        <div className="win-split-right">
+          {selectedProject ? (
+            <div>
+              <div className="win-detail-header">
+                <div className="win-detail-title">
+                  📄 {(selectedProject.title || selectedProject.slug).toUpperCase()}
+                </div>
+                {selectedProject.tags?.filter((t: string) => t?.trim()).length > 0 && (
+                  <div className="win-detail-tags">
+                    {selectedProject.tags.filter((t: string) => t?.trim()).map((tag: string) => (
+                      <span key={tag} className="win-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="win-detail-body">
+                {selectedProject.mainImage && (
+                  <Image
+                    src={urlForImage(selectedProject.mainImage)?.url() || ''}
+                    alt={selectedProject.title || 'Project image'}
+                    width={800}
+                    height={600}
+                    style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '0 auto 16px auto' }}
+                  />
+                )}
+                {selectedProject.body && (
+                  <PortableText value={selectedProject.body} components={portableTextComponents} />
+                )}
               </div>
             </div>
-            <div className="detail-body">
-              {selectedProject.mainImage && (
-                <Image 
-                  src={urlForImage(selectedProject.mainImage)?.url() || ''} 
-                  alt={selectedProject.title || 'Project main image'} 
-                  width={800}
-                  height={600}
-                  style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '0 auto 32px auto' }}
-                />
-              )}
-              {selectedProject.body ? (
-                <PortableText value={selectedProject.body} components={portableTextComponents} />
-              ) : null}
+          ) : (
+            <div className="win-empty">
+              <div style={{ fontSize: '24px' }}>📂</div>
+              <div>No file selected.</div>
+              <div style={{ fontSize: '11px' }}>Select a project from the list.</div>
             </div>
-          </div>
-        ) : (
-          <div className="empty-state">
-            <pre className="ascii-art">
-{`  \||/
-  -  -
-  /||\\`}
-            </pre>
-            <p>NO PROJECT SELECTED.</p>
-            <p style={{ opacity: 0.5 }}>Select a file from the grid.</p>
-          </div>
-        )}
-      </section>
-    </>
+          )}
+        </div>
+      </div>
+    </AppWindow>
   );
 }
