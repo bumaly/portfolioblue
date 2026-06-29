@@ -86,7 +86,7 @@ export default async function Projects(props: Props) {
               <Link key={p._id} href={`/projects?slug=${p.slug}`} scroll={false} style={{ display: 'block' }} data-nav>
                 <div className={`win-list-item${selectedSlug === p.slug ? ' active' : ''}`}>
                   <span style={{ fontSize: '12px' }}>📄</span>
-                  <span style={{ color: '#808080', flexShrink: 0 }}>[#{projects.length - 1 - i}]</span>
+                  <span style={{ color: '#808080', flexShrink: 0 }}>[#{i}]</span>
                   <span>{(p.title || p.slug).toUpperCase()}</span>
                 </div>
               </Link>

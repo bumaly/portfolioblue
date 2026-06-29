@@ -55,7 +55,7 @@ export default async function Blog(props: Props) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const selectedId = typeof searchParams.id === 'string' ? searchParams.id : undefined;
 
-  const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt desc, _createdAt desc)', {}, { cache: 'no-store' });
+  const posts: Post[] = await client.fetch('*[_type == "post"] | order(publishedAt asc, _createdAt asc)', {}, { cache: 'no-store' });
   const selectedPost = selectedId ? posts.find(p => p._id === selectedId) : undefined;
 
   const statusLeft = `${posts.length} entries`;
@@ -78,7 +78,7 @@ export default async function Blog(props: Props) {
                 <Link key={p._id} href={`/blog?id=${p._id}`} scroll={false} style={{ display: 'block' }} data-nav>
                   <div className={`win-list-item win-list-item--blog${selectedId === p._id ? ' active' : ''}`}>
                     <span style={{ fontSize: '12px', flexShrink: 0 }}>📝</span>
-                    <span style={{ color: '#808080', flexShrink: 0 }}>[#{posts.length - 1 - i}]</span>
+                    <span style={{ color: '#808080', flexShrink: 0 }}>[#{i}]</span>
                     <span className="win-list-label">{p.title}</span>
                     <span className="win-list-date">{date}</span>
                   </div>
