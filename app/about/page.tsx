@@ -45,6 +45,8 @@ export default function About() {
             </div>
           </div>
 
+          <p>this is the most boring page here. i hope.</p>
+
         </div>
       </div>
     </AppWindow>
