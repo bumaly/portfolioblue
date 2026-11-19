@@ -1,6 +1,6 @@
 # boolu.art
 
-Personal portfolio for BOOLU — creative technologist based in Barcelona.
+BOOLU's personal hobby website and blog.
 
 **Stack:** Next.js 16 · React 19 · TypeScript · Sanity v5 · Neon (PostgreSQL) · Drizzle ORM · Resend · Vercel  
 **Design:** Windows 95 / NT aesthetic — light mode default, dark mode via Start button toggle
